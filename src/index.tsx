@@ -13,6 +13,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import {store} from './app/store'
 import { Auth0Provider } from '@auth0/auth0-react';
+import Profile from './screens/Profile';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     path: "dashboard",
     element: <DashBoard />,
   },
+  {
+    path: "profile",
+    element: <Profile />,
+  }
 ]);
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -36,7 +41,7 @@ root.render(
     domain="dev-e8ngvuo2ygnrkkuq.us.auth0.com"
     clientId="PNjOJHf22DLmXJ9wVAbxpNwfotMtqmVr"
     authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: "http://localhost:3000/dashboard"
     }}
   >
     <Provider store={store}>

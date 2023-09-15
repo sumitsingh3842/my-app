@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -102,7 +104,19 @@ const DashBoardNav: React.FC<DashBoardNavProps> = ({ isDarkMode, toggleDarkMode 
     const [anchorElRegion, setAnchorElRegion] = React.useState<null | HTMLElement>(null);
     const [anchorElService, setAnchorElService] = React.useState<null | HTMLElement>(null);
     const [darkMode, setDarkMode] = useState(false);
-  
+    const {
+      user,
+      isAuthenticated,
+      loginWithRedirect,
+      logout,
+    } = useAuth0();
+    const navigate = useNavigate();
+    const logoutWithRedirect = () =>
+    logout({
+        logoutParams: {
+          returnTo: window.location.origin,
+        }
+    });
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorElNav(event.currentTarget);
     };
@@ -276,10 +290,11 @@ const DashBoardNav: React.FC<DashBoardNavProps> = ({ isDarkMode, toggleDarkMode 
          </IconButton>
              }
              
-            </Box>    
-            <Box sx={{ flexGrow: 0 }}>
+            </Box>
+            {isAuthenticated && user && (
+                <Box sx={{ flexGrow: 0 }}>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Sumit Singh" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Sumit Singh" src={user.picture} />
                 </IconButton>
               <Menu
                 sx={{ mt: '45px' }}
@@ -297,13 +312,16 @@ const DashBoardNav: React.FC<DashBoardNavProps> = ({ isDarkMode, toggleDarkMode 
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                  <MenuItem onClick={()=>navigate('/profile')}>
+                    <Typography textAlign="center">Profile</Typography>
                   </MenuItem>
-                ))}
+                  <MenuItem onClick={() => logoutWithRedirect()}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
+
               </Menu>
             </Box>
+              )}
           </Toolbar>
         </Container>
       </AppBar>

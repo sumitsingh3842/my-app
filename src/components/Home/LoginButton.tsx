@@ -4,8 +4,11 @@ import Button from '@mui/material/Button';
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
-
-  return <Button onClick={() => loginWithRedirect()} color="inherit">Login</Button>
+  const loginWithRedirectFunc = async() => {
+    await loginWithRedirect();
+    
+  }
+  return <Button onClick={() => loginWithRedirectFunc()} color="inherit">Login</Button>
 };
 
 export default LoginButton;

@@ -1,0 +1,12 @@
+.home-body{
+    height: 95vh;
+    display: flex;
+    width: 100%;
+}
+.logo{
+    width: 50%;
+
+}
+.logo2{
+    width: 50%;
+}

@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from "react-router-dom";
+import LoginButton from './LoginButton';
 
 
 const pages=['Products','Pricing','Blogs','Help','Contact Us']
@@ -26,8 +27,7 @@ function HomeNav() {
               ))}
             </Box>
        <Box>
-       <Button color="inherit" onClick={()=>navigate('/login')}>Login</Button>
-       <Button color="inherit">Sign up</Button>
+       <LoginButton />
        </Box> 
       </Toolbar>
     </AppBar>
