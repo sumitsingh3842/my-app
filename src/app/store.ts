@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import dashBoardReducer from '../features/DashBoard/dashBoardSlice';
+import userReducer from '../features/DashBoard/userSlice';
 
 export const store = configureStore({
   reducer: {
     dashBoard: dashBoardReducer,
+    userData: userReducer,
   },
 });
 

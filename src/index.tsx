@@ -14,6 +14,9 @@ import { Provider } from 'react-redux'
 import {store} from './app/store'
 import { Auth0Provider } from '@auth0/auth0-react';
 import Profile from './screens/Profile';
+import UserForm from './screens/UserForm';
+import Users from './screens/Users';
+import OrganisationForm from './screens/OrganisationForm';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,7 +33,20 @@ const router = createBrowserRouter([
   {
     path: "profile",
     element: <Profile />,
-  }
+  },
+  {
+    path: "createuser",
+    element: <UserForm />,
+  },
+  {
+    path: "users",
+    element: <Users />,
+  },
+  {
+    path: "createorg",
+    element: <OrganisationForm />,
+  },
+
 ]);
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
