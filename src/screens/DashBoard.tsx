@@ -1,11 +1,12 @@
 import React,{useState} from 'react'
 import DashBoardNav from '../components/DashBoard/DashBoardNav'
-import DashBoardMenuBar from '../components/DashBoard/DashBoardMenuBar'
 import DashBoardBody from '../components/DashBoard/DashBoardBody/DashBoardBody'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-function DashBoard() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+import Loading from '../components/Loading/Loading';
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+export function DashBoard() {
+const [isDarkMode, setIsDarkMode] = useState(false);
 
   const theme = createTheme({
     palette: {
@@ -23,11 +24,12 @@ function DashBoard() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <DashBoardNav isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-    <DashBoardMenuBar />
     <DashBoardBody />
     </ThemeProvider>
     </div>  
   )
 }
 
-export default DashBoard
+export default withAuthenticationRequired(DashBoard, {
+  onRedirecting: () => <Loading />,
+});

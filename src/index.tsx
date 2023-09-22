@@ -4,27 +4,22 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import './index.css';
 import App from './App';
-import Login from './screens/Login';
+import './index.css';
 import Home from './screens/Home';
 import DashBoard from './screens/DashBoard';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux'
 import {store} from './app/store'
-import { Auth0Provider } from '@auth0/auth0-react';
+import { useAuth0,Auth0Provider } from '@auth0/auth0-react';
 import Profile from './screens/Profile';
 import UserForm from './screens/UserForm';
-import Users from './screens/Users';
 import OrganisationForm from './screens/OrganisationForm';
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
-  },
-  {
-    path: "login",
-    element: <Login />,
   },
   {
     path: "dashboard",
@@ -39,15 +34,13 @@ const router = createBrowserRouter([
     element: <UserForm />,
   },
   {
-    path: "users",
-    element: <Users />,
-  },
-  {
-    path: "createorg",
+    path: '/organisation/create',
     element: <OrganisationForm />,
   },
 
 ]);
+
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -60,9 +53,7 @@ root.render(
       redirect_uri: "http://localhost:3000/dashboard"
     }}
   >
-    <Provider store={store}>
-    <RouterProvider router={router} />
-    </Provider>
+    <App />
   </Auth0Provider>
   </React.StrictMode>
 );

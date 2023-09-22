@@ -3,12 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import {
   TextField,
-  Checkbox,
   Button,
-  FormControlLabel,
   Grid,
 } from '@mui/material';
-import { createUser } from '../axios-client/create-user';
+import {withAuthenticationRequired} from '@auth0/auth0-react';
+import Loading from '../components/Loading/Loading';
 interface UserFormProps {
   onSubmit: (data: FormData) => void;
 }
@@ -26,19 +25,12 @@ interface FormData {
   connection:string
 }
 
-const UserForm = () => {
+export const UserForm = () => {
   const navigate = useNavigate();
-  const token=sessionStorage.getItem('accessToken');
-  console.log(token);
-  
   const { register, handleSubmit, formState } = useForm<FormData>();
   const onSubmit = async(data: FormData) => {
     console.log(data);
-    data.connection="Username-Password-Authentication";
-    const createUserResp= await createUser(token,data);
-    if(!createUserResp.isError){
-      navigate('/dashboard');
-    }
+    navigate('/dashboard');
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -78,5 +70,6 @@ const UserForm = () => {
     </form>
   );
 };
-
-export default UserForm;
+export default withAuthenticationRequired(UserForm, {
+  onRedirecting: () => <Loading />,
+});
