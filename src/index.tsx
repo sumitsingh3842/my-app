@@ -1,44 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
 import App from './App';
 import './index.css';
-import Home from './screens/Home';
-import DashBoard from './screens/DashBoard';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux'
-import {store} from './app/store'
-import { useAuth0,Auth0Provider } from '@auth0/auth0-react';
-import Profile from './screens/Profile';
-import UserForm from './screens/UserForm';
-import OrganisationForm from './screens/OrganisationForm';
+import { Auth0Provider } from '@auth0/auth0-react';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "dashboard",
-    element: <DashBoard />,
-  },
-  {
-    path: "profile",
-    element: <Profile />,
-  },
-  {
-    path: "createuser",
-    element: <UserForm />,
-  },
-  {
-    path: '/organisation/create',
-    element: <OrganisationForm />,
-  },
-
-]);
 
 
 const root = ReactDOM.createRoot(

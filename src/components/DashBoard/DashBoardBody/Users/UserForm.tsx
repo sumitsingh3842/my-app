@@ -1,17 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import {
   TextField,
   Button,
   Grid,
+  Box,
+  Typography
 } from '@mui/material';
 import {withAuthenticationRequired} from '@auth0/auth0-react';
-import Loading from '../components/Loading/Loading';
-interface UserFormProps {
-  onSubmit: (data: FormData) => void;
-}
-
+import CloseIcon from '@mui/icons-material/Close';
+import Loading from '../../../Loading/Loading';
 interface FormData {
   email: string;
   phone_number: string;
@@ -24,17 +22,23 @@ interface FormData {
   verify_email: boolean;
   connection:string
 }
+interface UserFormProps {
+  setUserForm: (value:boolean) => void;
+}
 
-export const UserForm = () => {
-  const navigate = useNavigate();
+export const UserForm = ({setUserForm}:UserFormProps) => {
   const { register, handleSubmit, formState } = useForm<FormData>();
   const onSubmit = async(data: FormData) => {
     console.log(data);
-    navigate('/dashboard');
+    setUserForm(false);
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{backgroundColor:"white",padding:"10px",borderRadius:"5px"}}>
+      <Box className="organisation-form-header">
+        <Typography variant="h5">Create User</Typography> 
+        <CloseIcon onClick={()=>setUserForm(false)} sx={{cursor:"pointer"}}/> 
+        </Box>
       <Grid item xs={12}>
           <TextField
             label="Name"
@@ -43,7 +47,7 @@ export const UserForm = () => {
             {...register('name', { required: true })}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <TextField
             label="Email"
             variant="outlined"
@@ -57,6 +61,7 @@ export const UserForm = () => {
           <TextField
             label="Password"
             variant="outlined"
+            type='password'
             fullWidth
             {...register('password', { required: true })}
           />

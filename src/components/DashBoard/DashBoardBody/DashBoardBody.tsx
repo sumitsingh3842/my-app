@@ -1,46 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import Button from '@mui/material/Button';
 import DashBoardMenuBar from "../DashBoardMenuBar";
 import { useAppDispatch,useAppSelector } from '../../../app/hooks'
-import {updateToken} from '../../../features/DashBoard/userSlice'
-import {getAccessToken} from "../../../axios-client/get-access-token.js";
-import { getAllUsers } from "../../../axios-client/get-all-users";
 import { Backdrop, CircularProgress } from "@mui/material";
-import OrganisationPage from "./OrganisationPage";
-import Users from "./Users";
-const DashBoardBody = () => {
+import OrganisationPage from "./Orgainsation/OrganisationPage";
+import Users from "./Users/UsersPage";
+interface DashBoardBodyProps {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+}
+const DashBoardBody: React.FC<DashBoardBodyProps> = ({ isDarkMode, toggleDarkMode }) => {
   const dispatch=useAppDispatch();
   const { user, isAuthenticated,getIdTokenClaims  } = useAuth0();
   const [activeBar,setActiveBar]=useState("organisation");
-  const [accessToken, setAccessToken]=useState("");
   const [loading,setLoading]=useState(true);
-  const [accessTokenFetched, setAccessTokenFetched] = useState(false);
-  useEffect(() => {   
-    if (!accessTokenFetched && !sessionStorage.getItem('accessToken')) {
-      const getToken = async () => {
-        const tokenResp = await getAccessToken();
-        if (!tokenResp.isError) {
-            if ('accessToken' in tokenResp) {
-              const token = tokenResp.accessToken;
-              sessionStorage.setItem('accessToken', token);
-              dispatch(updateToken(token));
-              setAccessToken(token);
-            }
-          }
-        setAccessTokenFetched(true); // Mark that the token has been fetched
-      };
-      getToken();
-    }
-  }, [accessTokenFetched]);
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("UserId",user?.sub);
+      if(user?.sub)
+      sessionStorage.setItem('userId',user?.sub)
       getIdTokenClaims()
         .then((claims) => {
           console.log(claims?.__raw);
           if(claims)
-          sessionStorage.setItem('userId',claims.__raw)
+          sessionStorage.setItem('idToken',claims.__raw)
         })
         .catch((error) => {
           console.error('Error getting ID token claims:', error);
@@ -58,7 +40,7 @@ const DashBoardBody = () => {
   return (
     isAuthenticated && user ? (
       <div>
-        <DashBoardMenuBar activeTab={activeBar} onTabChange={setActiveBar}   />
+        <DashBoardMenuBar activeTab={activeBar} onTabChange={setActiveBar} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}   />
         {renderContent()}
       </div>
     ) : (

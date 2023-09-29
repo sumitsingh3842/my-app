@@ -1,31 +1,34 @@
-import {createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface AnatomyState {
-  description: string;
-  status: 'idle' | 'loading' | 'failed';
+// Define the type for your organization object
+interface Organization {
+  organisationId: number;
+  organisationName: string;
+  // Add other properties as needed
 }
 
-const initialState: AnatomyState = {
-  description: '',
-  status: 'idle',
+// Define the initial state type
+interface OrganisationsState {
+  organisations: Organization[];
+}
+
+const initialState: OrganisationsState = {
+  organisations: [],
 };
 
-
-
 export const dashBoardSlice = createSlice({
-  name: 'dashBoard',
+  name: 'dashboard',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    changeDescription: (state,action: PayloadAction<string>) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.description = action.payload;
-    }
-  }
+    setOrganisation: (state, action: PayloadAction<Organization[]>) => {
+      state.organisations = action.payload;
+    },
+    addOrganisation: (state, action: PayloadAction<Organization>) => {
+      state.organisations.push(action.payload);
+    },
+  },
 });
 
-export const { changeDescription } = dashBoardSlice.actions;
+export const { setOrganisation, addOrganisation } = dashBoardSlice.actions;
+
 export default dashBoardSlice.reducer;

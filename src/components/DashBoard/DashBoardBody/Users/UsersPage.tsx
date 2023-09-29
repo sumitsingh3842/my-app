@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Container, Grid, Paper, Typography } from '@mui/material';
-import { getAllUsers } from '../../../axios-client/get-all-users';
+import { getAllUsers } from '../../../../axios-client/get-all-users';
 import ReactLoading from 'react-loading';
-
+import UserForm from './UserForm';
+import '../../../../styles/components/DashBoard/DashBoardBody/UsersPage.css'
 type User = {
   name: string;
   email: string;
@@ -14,41 +15,47 @@ interface UsersProps {
 function Users({ setLoading }: UsersProps) {
   const [usersFetched, setUsersFetched] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
-
-  useEffect(() => {
-    if (!usersFetched) {
-      const getToken = async () => {
-        const usersResp = await getAllUsers();
-        if (!usersResp.isError) {
-          if ('data' in usersResp) {
-            const fetchedUsers = usersResp.data as User[];
-            setUsers(fetchedUsers);
-            setLoading(false);
-          }
-        }
-        setUsersFetched(true);
-      };
-      getToken();
-    }
-  }, [usersFetched]);
+  const [userForm,setUserForm]=useState(false);
+  // useEffect(() => {
+  //   if (!usersFetched) {
+  //     const getToken = async () => {
+  //       const usersResp = await getAllUsers();
+  //       if (!usersResp.isError) {
+  //         if ('data' in usersResp) {
+  //           const fetchedUsers = usersResp.data as User[];
+  //           setUsers(fetchedUsers);
+  //           setLoading(false);
+  //         }
+  //       }
+  //       setUsersFetched(true);
+  //     };
+  //     getToken();
+  //   }
+  // }, [usersFetched]);
 
   return (
-    <Grid>
+    <Grid className="usersPage">
       <ReactLoading type="spinningBubbles" color="#000" className="loading" 
       // @ts-ignore
       style={{ position: 'absolute', top: '50%', left: '50%' }} 
       // @ts-ignore
        height={667} width={375} />
-      <Container sx={{ marginTop: '1%', marginBottom: '1%' }}>
+       <Container>
+       {userForm && (
+          <Grid className='usersFormDiv'>
+        <UserForm setUserForm={setUserForm} />
+        </Grid>
+        )}
+       <Container sx={{ padding: '1%'  }}>
         <Grid >
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h3">Users</Typography>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={()=>setUserForm(true)}>
             + Create User
           </Button>
         </Box>
         </Grid>
-        <Grid>
+        <Grid className='usersGrid'>
         {users.length === 0 ? (
         // Display a message when there are no users
         <Typography variant="subtitle1" color="textSecondary">
@@ -69,6 +76,7 @@ function Users({ setLoading }: UsersProps) {
       )}
         </Grid>
       </Container>
+       </Container>
     </Grid>
   );
 }

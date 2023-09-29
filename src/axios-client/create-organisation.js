@@ -1,13 +1,13 @@
 import axios from 'axios';
 export async function createOrganisation(data) {
-  const accessToken=sessionStorage.getItem('accessToken');
+  const idToken=sessionStorage.getItem('idToken');
   const options = {
     method: 'POST',
-    url: 'https://dev-e8ngvuo2ygnrkkuq.us.auth0.com/api/v2/organizations',
+    url: 'https://5m1no7sqj9.execute-api.us-east-1.amazonaws.com/dev/create-organisation',
     headers: {
       'Content-Type': 'application/json',
       "Accept": "application/json",
-      "Authorization":`Bearer ${accessToken}`
+      "Authorization":`Bearer ${idToken}`
     },
     data
   };

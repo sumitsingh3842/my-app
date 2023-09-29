@@ -1,9 +1,9 @@
 import axios from 'axios';
-export async function getAllOrgs(userId) {
-  const accessToken=sessionStorage.getItem('accessToken');
+export async function getAllOrgs(emailId) {
+  const accessToken=sessionStorage.getItem('idToken');
   const options = {
     method: 'GET',
-    url: `https://dev-e8ngvuo2ygnrkkuq.us.auth0.com/api/v2/users/${userId}/organizations`,
+    url: `https://5m1no7sqj9.execute-api.us-east-1.amazonaws.com/dev/get-all-organisations?emailId=${emailId}`,
     headers: {
       'Content-Type': 'application/json',
       "Accept": "application/json",

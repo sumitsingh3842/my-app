@@ -4,7 +4,7 @@ import userReducer from '../features/DashBoard/userSlice';
 
 export const store = configureStore({
   reducer: {
-    dashBoard: dashBoardReducer,
+    dashboard: dashBoardReducer,
     userData: userReducer,
   },
 });

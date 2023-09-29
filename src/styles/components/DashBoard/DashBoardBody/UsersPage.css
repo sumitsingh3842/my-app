@@ -1,0 +1,31 @@
+.usersGrid{
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.usersPage{
+    height: 90vh;
+    position: relative;
+}
+.usersFormDiv{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);;
+}
+.users-form-header{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.usersForm{
+    padding: 5px;
+}
