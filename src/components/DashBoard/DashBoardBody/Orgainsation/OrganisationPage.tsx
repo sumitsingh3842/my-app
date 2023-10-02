@@ -88,11 +88,11 @@ function OrganisationPage({ setLoading }: OrganisationProps) {
                 <Grid className="organisationItemGrid">
                   {organisations.map((org) => (
                     <Grid key={org.organisationId} className="organisationItem">
-                      <Typography variant="h6" key={org.organisationId}>
+                      <Typography variant="h6">
                         {org.organisationName}
                       </Typography>
-                      <Typography variant="subtitle1" color="textSecondary">
-                        {org.organisationName}
+                      <Typography variant="subtitle1">
+                        {org.organisationId}
                       </Typography>
                     </Grid>
                   ))}

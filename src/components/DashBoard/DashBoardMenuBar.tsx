@@ -29,34 +29,10 @@ function DashBoardMenuBar({ activeTab, onTabChange,isDarkMode,toggleDarkMode }: 
           returnTo: window.location.origin,
         }
     });
-  const activeButtonStyle = {
-    backgroundColor: '#1976d2',
-    color: 'white',
-    width:'50%',
-    padding:'1%',
-    fontFamily: 'Aeonik, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Helvetica, Arial, sans-serif',
-    fontSize: '2rem',
-    lineHeight: '1.25',
-    letterSpacing: '0.02em',
-    fontWeight: '500'
-  };
-  const inactiveButtonStyle = {
-    backgroundColor:'white', // Change the colors as needed
-    color: 'black',
-    width:'50%',
-    padding:'1%',
-    fontFamily: 'Aeonik, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Helvetica, Arial, sans-serif',
-    fontSize: '2rem',
-    lineHeight: '1.25',
-    letterSpacing: '0.02em',
-    fontWeight: '500'
-  };
   return (
-    <AppBar position="static">
+    <Box>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
-          <Button  style={activeTab === 'organisation' ? activeButtonStyle : inactiveButtonStyle} onClick={() => onTabChange('organisation')}>Organisation</Button>
-              <Button style={activeTab === 'users' ? activeButtonStyle : inactiveButtonStyle} onClick={() => onTabChange('users')}>Users</Button>
               <Box sx={{ flexGrow: 0,margin:'0 5px' }}>
              {isDarkMode?
              <IconButton aria-label="toggleon"  onClick={toggleDarkMode} size="large">
@@ -101,7 +77,7 @@ function DashBoardMenuBar({ activeTab, onTabChange,isDarkMode,toggleDarkMode }: 
               )}
           </Toolbar>
         </Container>
-      </AppBar>
+      </Box>
   );
 }
 

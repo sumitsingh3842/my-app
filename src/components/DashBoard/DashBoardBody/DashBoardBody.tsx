@@ -5,6 +5,7 @@ import { useAppDispatch,useAppSelector } from '../../../app/hooks'
 import { Backdrop, CircularProgress } from "@mui/material";
 import OrganisationPage from "./Orgainsation/OrganisationPage";
 import Users from "./Users/UsersPage";
+import '../../../styles/components/DashBoard/DashBoardBody/DashBoardBody.css'
 interface DashBoardBodyProps {
   isDarkMode: boolean;
   toggleDarkMode: () => void;
@@ -39,9 +40,9 @@ const DashBoardBody: React.FC<DashBoardBodyProps> = ({ isDarkMode, toggleDarkMod
   };
   return (
     isAuthenticated && user ? (
-      <div>
-        <DashBoardMenuBar activeTab={activeBar} onTabChange={setActiveBar} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}   />
+      <div className="dashboardBody">
         {renderContent()}
+        <DashBoardMenuBar activeTab={activeBar} onTabChange={setActiveBar} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}   />
       </div>
     ) : (
       <div>

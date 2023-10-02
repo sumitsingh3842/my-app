@@ -6,8 +6,9 @@
     flex-direction: column;
 }
 .organisationPage{
-    height: 90vh;
+    height: 100vh;
     position: relative;
+    width: 95%;
 }
 .organisationFormDiv{
     position: absolute;
