@@ -11,6 +11,7 @@ import {store} from './app/store'
 import { useAuth0 } from '@auth0/auth0-react';
 import Profile from './screens/Profile';
 import Loading from './components/Loading/Loading';
+import OrganisationForm from './screens/OrganisationForm';
 
 
 
@@ -27,6 +28,10 @@ function App() {
     {
       path: "profile",
       element: <Profile />,
+    },
+    {
+      path:"create-organisation",
+      element:<OrganisationForm />
     }
   ]);
   

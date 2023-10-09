@@ -6,7 +6,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getAllOrgs } from '../../../../axios-client/get-all-organisation';
 import { setOrganisation } from '../../../../features/DashBoard/dashBoardSlice';
 import '../../../../styles/components/DashBoard/DashBoardBody/OrganisationPage.css';
-import OrganisationForm from './OrganisationForm';
 import { usePromiseTracker,trackPromise  } from 'react-promise-tracker';
 import ReactLoading from 'react-loading';
 
@@ -15,11 +14,7 @@ type Organisation = {
   organisationName: string;
 };
 
-interface OrganisationProps {
-  setLoading: (loading: boolean) => void;
-}
-
-function OrganisationPage({ setLoading }: OrganisationProps) {
+function OrganisationPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { promiseInProgress } = usePromiseTracker(); 
@@ -36,7 +31,6 @@ function OrganisationPage({ setLoading }: OrganisationProps) {
             if ('data' in orgsResp) {
               const fetchedOrgs = orgsResp.data as Organisation[];
               dispatch(setOrganisation(fetchedOrgs));
-              setLoading(false);
             }
           }
           setOrgsFetched(true);
@@ -54,41 +48,39 @@ function OrganisationPage({ setLoading }: OrganisationProps) {
   useEffect(() => {
     console.log(organisations); // This will log the updated organisations
   }, [organisations]);
+  const createOrganisation = () => {
+    navigate('/create-organisation');
+  }
 
   return (
     <Grid className="organisationPage">
-      <Container>
-        {orgForm && (
-          <Grid className='organisationFormDiv'>
-            <OrganisationForm setOrgForm={setOrgForm} />
-          </Grid>
-        )}
-        <Container sx={{ padding: '1%' }}>
-          <Grid>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="h3">Organisations</Typography>
-              <Button variant="contained" color="primary" onClick={() => setOrgForm(true)}>
+            <Box className='organisationHeaderDiv'>
+              <Typography variant="h3" className='organisationHeader'>Organisations</Typography>
+              <Button variant="contained" onClick={() => createOrganisation()} className='createOrgButton'>
                 + Create Organisation
               </Button>
             </Box>
-          </Grid>
-          <Grid className='organisationGrid'>
             {promiseInProgress ? ( // Display loader if promise is in progress
+            <Grid className='organisationPromiseGrid'>
               <ReactLoading
                 type="spin"
                 color="#1976d2"
                 className="loading"
               />
+              </Grid>
             ) : (
               organisations.length === 0 ? (
+                <Grid className='organisationPromiseGrid'>
                 <Typography color="textSecondary">
                   No Organisations available.
                 </Typography>
+                </Grid>
               ) : (
+                <Grid className='organisationGrid'>
                 <Grid className="organisationItemGrid">
                   {organisations.map((org) => (
                     <Grid key={org.organisationId} className="organisationItem">
-                      <Typography variant="h6">
+                      <Typography variant="h6" className='organisationName'>
                         {org.organisationName}
                       </Typography>
                       <Typography variant="subtitle1">
@@ -97,11 +89,9 @@ function OrganisationPage({ setLoading }: OrganisationProps) {
                     </Grid>
                   ))}
                 </Grid>
+                </Grid>
               )
             )}
-          </Grid>
-        </Container>
-      </Container>
     </Grid>
   );
   
