@@ -10,7 +10,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 import Person2Icon from '@mui/icons-material/Person2';
 import logo from '../../media/images/company-logo.jpg';
-import name from '../../media/images/company-name.png'
+import name from '../../media/images/company-name-white.png'
 import '../../styles/components/DashBoard/DashBoardMenuBar.css'
 
 function DashBoardMenuBar() {
@@ -27,7 +27,7 @@ function DashBoardMenuBar() {
         }
     });
   return (
-    <AppBar position="static" sx={{backgroundColor:'white',height:'8.8vh'}}>
+    <AppBar position="static" sx={{backgroundColor:'black',height:'8.8vh'}}>
       <Toolbar>
         {/* Add the company logo */}
         <img src={logo} alt="Company Logo" className="company-logo" height="40" />

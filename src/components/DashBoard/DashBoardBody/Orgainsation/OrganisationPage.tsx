@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { useAuth0 } from "@auth0/auth0-react";
@@ -56,9 +58,9 @@ function OrganisationPage() {
     <Grid className="organisationPage">
             <Box className='organisationHeaderDiv'>
               <Typography variant="h3" className='organisationHeader'>Organisations</Typography>
-              <Button variant="contained" onClick={() => createOrganisation()} className='createOrgButton'>
-                + Create Organisation
-              </Button>
+              <IconButton onClick={() => createOrganisation()} className="profileIcon">
+                  <AddCircleIcon fontSize='large'  />
+                </IconButton>
             </Box>
             {promiseInProgress ? ( // Display loader if promise is in progress
             <Grid className='organisationPromiseGrid'>

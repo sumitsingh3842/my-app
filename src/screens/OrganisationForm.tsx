@@ -53,23 +53,18 @@ const OrganisationForm = () => {
 
   return (
     <Grid className='organisationForm'>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid
-          container
-          spacing={2}
-          sx={{ backgroundColor: 'white', padding: '10px', borderRadius: '5px' }}
-        >
-          <Box className="organisation-form-header">
-            <Typography variant="h5">Create Organisation</Typography>
-            <CloseIcon onClick={() => navigate('/dashboard')} sx={{ cursor: 'pointer' }} />
-          </Box>
           {promiseInProgress ? ( 
             <ReactLoading
             type="spin"
             color="#1976d2"
             className="loading"
           />):(
-            <Grid>
+            <form onSubmit={handleSubmit(onSubmit)} className='orgForm'>
+              <Box className="organisation-form-header">
+            <Typography variant="h5">Create Organisation</Typography>
+            <CloseIcon onClick={() => navigate('/dashboard')} sx={{ cursor: 'pointer' }} />
+          </Box>
+          <Grid>
           <Grid>
             <TextField
               label="Unique Name"
@@ -96,9 +91,8 @@ const OrganisationForm = () => {
             </Button>
           </Grid>
           </Grid>
+          </form>
           )}
-        </Grid>
-      </form>
     </Grid>
   );
 };
