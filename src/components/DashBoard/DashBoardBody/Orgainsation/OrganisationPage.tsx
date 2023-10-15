@@ -12,10 +12,12 @@ import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
 import ReactLoading from 'react-loading';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
+import OrganisationForm from '../../../../screens/OrganisationForm';
 
 type Organisation = {
   organisationId: number;
   organisationName: string;
+  userRole: string;
 };
 
 function OrganisationPage() {
@@ -55,7 +57,7 @@ function OrganisationPage() {
   }, [organisations]);
 
   const createOrganisation = () => {
-    navigate('/create-organisation');
+    setOrgForm(true);
   }
 
   // Filter organizations based on the search query
@@ -71,6 +73,11 @@ function OrganisationPage() {
           <AddCircleIcon fontSize='large' />
         </IconButton>
       </Box>
+      {orgForm ? (
+        <OrganisationForm setOrgForm={setOrgForm}/> // Render the OrganisationForm component when orgForm is true
+      ) : (
+        <div></div>
+      )}
       
       <Box className="organisationSearchBar">
       <TextField
@@ -111,9 +118,14 @@ function OrganisationPage() {
             <Grid className="organisationItemGrid">
               {filteredOrganisations.map((org) => (
                 <Grid key={org.organisationId} className="organisationItem">
+                  <Grid className='organisationNameDiv'>
                   <Typography variant="h6" className='organisationName'>
-                    {org.organisationName}
+                    {org.organisationName}   
                   </Typography>
+                  <Typography variant="h6" className='organisationRole'>
+                    {org.userRole}   
+                  </Typography>
+                  </Grid>
                   <Typography variant="subtitle1">
                     {org.organisationId}
                   </Typography>

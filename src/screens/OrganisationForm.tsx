@@ -24,9 +24,13 @@ interface FormData {
   name: string;
   emailId:any;
   isPremium: boolean;
+  description: string
+}
+interface OrganisationProps{
+  setOrgForm: (value: boolean) => void;
 }
 
-const OrganisationForm = () => {
+const OrganisationForm = ({setOrgForm}:OrganisationProps) => {
   const { user } = useAuth0();
   const navigate = useNavigate();
   const { register, handleSubmit, formState } = useForm<FormData>();
@@ -47,32 +51,46 @@ const OrganisationForm = () => {
       dispatch(addOrganisation(createOrgResp.data));
     }
     console.log(createOrgResp);
-    navigate('/dashboard');
+    setOrgForm(false);
   }))
   };
 
   return (
-    <Grid className='organisationForm'>
+    <Grid className={`${promiseInProgress ? 'black-bg' : 'organisationForm'}`}>
           {promiseInProgress ? ( 
             <ReactLoading
             type="spin"
             color="#1976d2"
-            className="loading"
+            className="createOrgLoading"
           />):(
             <form onSubmit={handleSubmit(onSubmit)} className='orgForm'>
               <Box className="organisation-form-header">
             <Typography variant="h5">Create Organisation</Typography>
-            <CloseIcon onClick={() => navigate('/dashboard')} sx={{ cursor: 'pointer' }} />
+            <CloseIcon onClick={() => setOrgForm(false)} sx={{ cursor: 'pointer' }} />
           </Box>
           <Grid>
           <Grid>
             <TextField
+              autoComplete='off'
               label="Unique Name"
               variant="outlined"
+              className='organisationFormInput'
               fullWidth
               {...register('name', { required: true })}
               error={!!formState.errors.name}
               helperText={formState.errors.name ? 'Unique name is required' : ''}
+            />
+          </Grid>
+          <Grid>
+            <TextField
+              autoComplete='off'
+              label="Description"
+              variant="outlined"
+              className='organisationFormInput'
+              fullWidth
+              {...register('description', { required: true })}
+              error={!!formState.errors.name}
+              helperText={formState.errors.name ? 'Description is required' : ''}
             />
           </Grid>
           <Grid>

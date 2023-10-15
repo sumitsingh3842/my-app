@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface Organization {
   organisationId: number;
   organisationName: string;
+  userRole: string;
   // Add other properties as needed
 }
 

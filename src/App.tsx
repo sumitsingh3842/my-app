@@ -28,10 +28,6 @@ function App() {
     {
       path: "profile",
       element: <Profile />,
-    },
-    {
-      path:"create-organisation",
-      element:<OrganisationForm />
     }
   ]);
   
