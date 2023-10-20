@@ -1,0 +1,18 @@
+.chatBotHeadDiv{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+.createChatBotButton{
+    background-color: hsl(152.9deg 60% 52.9%/.7) !important;
+    color: rgba(255, 255, 255, 0.61) !important;
+    text-transform: none !important;
+}
+.createChatBotButton:hover{
+    color: white !important;
+    background-color: hsl(152.9deg 60% 52.9%) !important;
+}
+.allChatBotHeader{
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}

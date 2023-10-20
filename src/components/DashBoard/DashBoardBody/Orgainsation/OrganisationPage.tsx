@@ -6,16 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { useAuth0 } from "@auth0/auth0-react";
 import { getAllOrgs } from '../../../../axios-client/get-all-organisation';
-import { setOrganisation } from '../../../../features/DashBoard/dashBoardSlice';
+import { setOrganisation,setSelectedOrg } from '../../../../features/DashBoard/dashBoardSlice';
 import '../../../../styles/components/DashBoard/DashBoardBody/OrganisationPage.css';
 import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
 import ReactLoading from 'react-loading';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
-import OrganisationForm from '../../../../screens/OrganisationForm';
+import OrganisationForm from './OrganisationForm';
 
 type Organisation = {
-  organisationId: number;
+  organisationId: string;
   organisationName: string;
   userRole: string;
 };
@@ -64,11 +64,14 @@ function OrganisationPage() {
   const filteredOrganisations = organisations.filter((org) =>
     org.organisationName.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
+  const selectOrganisation = (org:Organisation) => {
+    dispatch(setSelectedOrg(org));
+    navigate(`/project/${org.organisationName}/${org.organisationId}`);
+  }
   return (
     <Grid className="organisationPage">
       <Box className='organisationHeaderDiv'>
-        <Typography variant="h3" className='organisationHeader'>Organisations</Typography>
+        <Typography variant="h3" className='organisationHeader'>Projects</Typography>
         <IconButton onClick={() => createOrganisation()} className="profileIcon">
           <AddCircleIcon fontSize='large' />
         </IconButton>
@@ -110,14 +113,14 @@ function OrganisationPage() {
         filteredOrganisations.length === 0 ? (
           <Grid className='organisationPromiseGrid'>
             <Typography color="textSecondary">
-              No Organizations available.
+              No Projects available.
             </Typography>
           </Grid>
         ) : (
           <Grid className='organisationGrid'>
             <Grid className="organisationItemGrid">
               {filteredOrganisations.map((org) => (
-                <Grid key={org.organisationId} className="organisationItem">
+                <Grid key={org.organisationId} className="organisationItem" onClick={() => selectOrganisation(org)}>
                   <Grid className='organisationNameDiv'>
                   <Typography variant="h6" className='organisationName'>
                     {org.organisationName}   

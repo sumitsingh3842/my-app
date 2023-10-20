@@ -9,16 +9,16 @@ import {
   Switch, // Import the Switch component
 } from '@mui/material';
 import { useAuth0 } from "@auth0/auth0-react";
-import { createOrganisation } from '../axios-client/create-organisation';
+import { createOrganisation } from '../../../../axios-client/create-organisation';
 import CloseIcon from '@mui/icons-material/Close';
-import { useAppDispatch } from '../app/hooks';
-import { addOrganisation } from '../features/DashBoard/dashBoardSlice';
+import { useAppDispatch } from '../../../../app/hooks';
+import { addOrganisation } from '../../../../features/DashBoard/dashBoardSlice';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../components/Loading/Loading';
+import Loading from '../../../Loading/Loading';
 import {  withAuthenticationRequired } from "@auth0/auth0-react";
 import { usePromiseTracker,trackPromise  } from 'react-promise-tracker';
 import ReactLoading from 'react-loading';
-import '../styles/screens/OrganisationForm.css'
+import '../../../../styles/screens/OrganisationForm.css'
 
 interface FormData {
   name: string;

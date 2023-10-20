@@ -11,7 +11,8 @@ import {store} from './app/store'
 import { useAuth0 } from '@auth0/auth0-react';
 import Profile from './screens/Profile';
 import Loading from './components/Loading/Loading';
-import OrganisationForm from './screens/OrganisationForm';
+import OrganisationDetails from './screens/OrganisationDetails';
+import ChatBot from './screens/ChatBot';
 
 
 
@@ -28,6 +29,14 @@ function App() {
     {
       path: "profile",
       element: <Profile />,
+    },
+    {
+      path: "project/:orgName/:orgId",
+      element: <OrganisationDetails />,
+    },
+    {
+      path: "create-chat-bot",
+      element: <ChatBot />,
     }
   ]);
   
