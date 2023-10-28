@@ -1,0 +1,5 @@
+.createChatBotDiv{
+    height: 100vh;
+    display: flex;
+    background-color: #1c1c1c;
+}

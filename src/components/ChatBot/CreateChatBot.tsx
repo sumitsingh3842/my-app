@@ -20,6 +20,7 @@ function CreateChatBot({setChatForm}: CreateChatBotProps) {
   const { register, handleSubmit, formState } = useForm<FormData>();
   const onSubmit = async (data: FormData) => {
     console.log(data);
+    navigate('/create-chat-bot')
   };
   return (
     <Grid className={`${promiseInProgress ? 'black-bg' : 'chatForm'}`}>
@@ -45,6 +46,8 @@ function CreateChatBot({setChatForm}: CreateChatBotProps) {
               {...register('name', { required: true })}
               error={!!formState.errors.name}
               helperText={formState.errors.name ? 'Unique name is required' : ''}
+              InputProps={{ style: { color: 'white' } }}
+              InputLabelProps={{ style: { color: 'rgb(237 237 237 / 37%)' } }}
             />
           </Grid>
           <Grid>
@@ -57,10 +60,14 @@ function CreateChatBot({setChatForm}: CreateChatBotProps) {
               {...register('description', { required: true })}
               error={!!formState.errors.name}
               helperText={formState.errors.name ? 'Description is required' : ''}
+              InputProps={{ style: { color: 'white' } }}
+              InputLabelProps={{ style: { color: 'rgb(237 237 237 / 37%)' } }}
             />
           </Grid>
+          </Grid>
           <Grid>
-            <Button type="submit" variant="contained" color="primary">
+          <Grid>
+            <Button type="submit" variant="contained" className='createChatBotButton'>
               Create
             </Button>
           </Grid>
