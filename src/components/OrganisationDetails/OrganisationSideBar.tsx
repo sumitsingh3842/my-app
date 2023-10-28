@@ -7,17 +7,18 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/components/OrganisationDetails/OrganisationSideBar.css'
 interface OrganisationSideBarProps{
-    orgId:string;
-    orgName:string;
-    currentPage:string;
     setCurrentPage: (value: string) => void;
 }
-function OrganisationSideBar({orgId,orgName,setCurrentPage}:OrganisationSideBarProps) {
+function OrganisationSideBar({setCurrentPage}:OrganisationSideBarProps) {
   const navigate = useNavigate();
-  const items=['Project','ChatBots','Billing','Documentation','Help'];
+  const items=['Project','Live Chat','ChatBots','Billing','Documentation','Help'];
   const handleSideBarClick = (item:string) => {
     if(item==='ChatBots')
     setCurrentPage('chatBots')
+    else if(item==='Live Chat')
+    setCurrentPage('live-chat')
+    else if(item==='Project')
+    setCurrentPage('project')
   };
   return (
     <Grid className='orgSideBarDiv'>

@@ -6,12 +6,12 @@ import '../styles/screens/OrganisationDetails.css'
 import { useParams } from 'react-router-dom';
 function OrganisationDetails() {
   const { orgId, orgName } = useParams<{ orgId?: string; orgName?: string }>();
-  const [currentPage,setCurrentPage]=useState('general');
+  const [currentPage,setCurrentPage]=useState('project');
   const organizationId = orgId || '';
   const organizationName = orgName || '';
   return (
     <div className='orgDetailsDiv'>
-        <OrganisationSideBar orgId={organizationId} orgName={organizationName} currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+        <OrganisationSideBar setCurrentPage={setCurrentPage}/>
         <OrganisationMain orgId={organizationId} orgName={organizationName} currentPage={currentPage} />
     </div>
   )

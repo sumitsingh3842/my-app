@@ -1,0 +1,10 @@
+.searchDiv {
+    background-color: #202c33;
+    align-items: center;
+}
+.searchInput{
+    min-height: 1.47em;
+    user-select: text;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
