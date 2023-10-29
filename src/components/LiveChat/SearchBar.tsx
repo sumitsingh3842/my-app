@@ -2,8 +2,11 @@
 import React from 'react';
 import { InputBase, Paper, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+  value: string;
+  onChange: React.Dispatch<React.SetStateAction<string>>;
+}
+const SearchBar = ({value,onChange}:SearchBarProps) => {
   return (
     <Paper
       component="form"
@@ -28,6 +31,7 @@ const SearchBar: React.FC = () => {
           },
         }}
         placeholder="Search or start new chat"
+        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => onChange(e.target.value)}
         inputProps={{ 'aria-label': 'search or start new chat' }}
       />
       <IconButton
@@ -36,7 +40,7 @@ const SearchBar: React.FC = () => {
           p: '10px',
           color: 'rgba(255, 255, 255, 0.6)',
         }}
-        onClick={(e) => e.preventDefault()}
+        onClick={(e: { preventDefault: () => any; }) => e.preventDefault()}
         aria-label="search"
       >
         <SearchIcon />

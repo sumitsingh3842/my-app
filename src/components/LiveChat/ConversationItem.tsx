@@ -13,7 +13,7 @@ type Conversation = {
   const useStyles = makeStyles(() => ({
     hoverBox: {
       '&:hover': {
-        backgroundColor: '#343434', // slightly lighter than the non-hover state
+        backgroundColor: '#202c33', // slightly lighter than the non-hover state
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // subtle shadow on hover
         cursor: 'pointer', // pointer cursor on hover
       },
@@ -26,7 +26,7 @@ const ConversationItem: React.FC<{ conversation: Conversation,setCurrentConversa
       display="flex" 
       alignItems="center" 
       padding="12px 16px" 
-      bgcolor={conversation.unreadCount ? "#404040" : "#2C2C2C"} 
+      bgcolor={conversation.unreadCount ? "#202c33" : "#0c1317"} 
       borderRadius="8px" 
       marginBottom="8px" 
       className={classes.hoverBox} 
@@ -40,13 +40,13 @@ const ConversationItem: React.FC<{ conversation: Conversation,setCurrentConversa
           <Box flexGrow={1} marginLeft="12px">
             <Typography variant="h6" color="white">{conversation.name}</Typography>
             <Box display="flex" alignItems="center">
-              <CheckIcon fontSize="small" color="action" />
-              <Typography variant="body2" color="textSecondary" marginLeft="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+              <CheckIcon fontSize="small" color="inherit" />
+              <Typography variant="body2" color="grey" marginLeft="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                 {conversation.lastMessage}
               </Typography>
             </Box>
           </Box>
-          <Typography variant="caption" color="textSecondary">{conversation.timestamp}</Typography>
+          <Typography variant="caption" color="grey">{conversation.timestamp}</Typography>
         </Box>
       );
 };

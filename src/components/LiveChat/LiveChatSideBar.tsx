@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import SearchBar from './SearchBar'
 import '../../styles/components/LiveChat/LiveChatSideBar.css'
 import { Divider } from '@mui/material'
@@ -16,12 +16,16 @@ type Conversation = {
     setCurrentConversation: React.Dispatch<React.SetStateAction<Conversation | null>>
   }
 function LiveChatSideBar({conversations,setCurrentConversation}: LiveChatSideBarProps) {
-      
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredConversations = conversations.filter(conversation =>
+    conversation.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+    
   return (
-    <div style={{ backgroundColor: '#333', padding: '20px' }}>
-    <SearchBar />
+    <div style={{ backgroundColor: '#333', padding: '20px',width:'40%' }}>
+    <SearchBar value={searchQuery} onChange={setSearchQuery} />
     <Divider sx={{ marginBottom: 2 }} />
-    <LiveChatList conversations={conversations} setCurrentConversation={setCurrentConversation} />
+    <LiveChatList conversations={filteredConversations} setCurrentConversation={setCurrentConversation} />
   </div>
   )
 }
