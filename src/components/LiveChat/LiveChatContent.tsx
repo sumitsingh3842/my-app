@@ -18,10 +18,22 @@ type conversationContent = {
 }
 function LiveChatContent({conversation}: {conversation: Conversation|null}) {
   const [conversations, setConversations] = React.useState<conversationContent[]>([]);
+  const [searchQuery, setSearchQuery] = React.useState<string>('');
+  const [filteredConversations, setFilteredConversations] = React.useState<conversationContent[]>(conversations);
+
+  React.useEffect(() => {
+    if (searchQuery) {
+      const loweredSearchQuery = searchQuery.toLowerCase();
+      const filtered = conversations.filter(convo => convo.content.toLowerCase().includes(loweredSearchQuery));
+      setFilteredConversations(filtered);
+    } else {
+      setFilteredConversations(conversations);
+    }
+  }, [conversations, searchQuery]);
   return (
     <Box display="flex" flexDirection="column" sx={{width:'80%'}}>
-      <ChatHeader conversation={conversation}/>
-      <ChatContent conversations={conversations}  />
+      <ChatHeader conversation={conversation} onSearchChange={setSearchQuery} />
+      <ChatContent conversations={filteredConversations} />
       <ChatTypeBar conversations={conversations} setConversations={setConversations} />
     </Box>
   )
