@@ -13,7 +13,7 @@ type ChatContentProps = {
 
 const ChatContent = ({ conversations }: ChatContentProps) => {
   return (
-    <Box flexGrow={1} overflow="auto" bgcolor="#20232a" padding="16px">
+    <Box flexGrow={1} overflow="auto" bgcolor="#20232a" padding="16px" display={'flex'} flexDirection={'column'}>
       {conversations.map((conversation, index) => (
         <Box
           key={index}

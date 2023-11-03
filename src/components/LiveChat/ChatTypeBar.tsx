@@ -19,7 +19,7 @@ const ChatTypeBar = ({conversations, setConversations}: ChatTypeBarProps) => {
 
     const handleSend = () => {
         if (message.trim() !== '') {
-            setConversations([...conversations, { source: 'agent', content: message }]);
+            setConversations([...conversations, { source: 'user', content: message }]);
             setMessage('');  // Clear the input after sending
         }
     };

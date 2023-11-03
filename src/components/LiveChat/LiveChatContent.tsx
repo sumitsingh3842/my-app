@@ -30,13 +30,18 @@ function LiveChatContent({conversation}: {conversation: Conversation|null}) {
       setFilteredConversations(conversations);
     }
   }, [conversations, searchQuery]);
+  
   return (
-    <Box display="flex" flexDirection="column" sx={{width:'80%'}}>
-      <ChatHeader conversation={conversation} onSearchChange={setSearchQuery} />
-      <ChatContent conversations={filteredConversations} />
-      <ChatTypeBar conversations={conversations} setConversations={setConversations} />
+    <Box display="flex" flexDirection="column" sx={{width:'80%',backgroundColor:'#20232a',height:'91vh'}}>
+      {conversation && (
+        <>
+          <ChatHeader conversation={conversation} onSearchChange={setSearchQuery} />
+          <ChatContent conversations={filteredConversations} />
+          <ChatTypeBar conversations={conversations} setConversations={setConversations} />
+        </>
+      )}
     </Box>
-  )
+  );
 }
 
 export default LiveChatContent
