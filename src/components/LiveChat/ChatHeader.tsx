@@ -4,7 +4,7 @@ import { keyframes } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 type Conversation = {
-  id: number;
+  endUserId: number;
   avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
   name: string;
   timestamp: string;

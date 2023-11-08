@@ -1,153 +1,58 @@
-import React from 'react'
-import LiveChatContent from '../components/LiveChat/LiveChatContent'
-import LiveChatSideBar from '../components/LiveChat/LiveChatSideBar'
-import '../styles/screens/LiveChat.css'
+import React, { useEffect, useState } from 'react';
+import LiveChatContent from '../components/LiveChat/LiveChatContent';
+import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
+import LiveChatSideBar from '../components/LiveChat/LiveChatSideBar';
+import '../styles/screens/LiveChat.css';
+import { getAllChats } from '../axios-client/get-all-chats';
+import ReactLoading from 'react-loading';
+
 type Conversation = {
-  id: number;
-  avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
+  endUserId: number;
+  avatar: string | React.ReactNode;
   name: string;
   timestamp: string;
   lastMessage: string;
   unreadCount?: number;
 };
-const conversations: Conversation[] = [
-  {
-    id: 1,
-    avatar: "https://example.com/path/to/image.jpg",
-    name: "Sumit Singh",
-    timestamp: "12:32",
-    lastMessage: "Hello, how are you?",
-    unreadCount: 0,
-  },
-  {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "Naveen",
-      timestamp: "12:32",
-      lastMessage: "Good Morning",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "Mom",
-      timestamp: "12:32",
-      lastMessage: "What are you doing?",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    },
-    {
-      id: 1,
-      avatar: "https://example.com/path/to/image.jpg",
-      name: "my list",
-      timestamp: "12:32",
-      lastMessage: "https://udemy.com/course/aws...",
-      unreadCount: 0,
-    }
-];
+interface GetAllChatsResponse {
+  isError: boolean;
+  data?: Conversation[];
+}
 function LiveChat() {
-  const [currentConversation, setCurrentConversation] = React.useState<Conversation | null>(null)
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
+  const { promiseInProgress } = usePromiseTracker();
+
+  useEffect(() => {
+    // Function to fetch all chats and update the state
+    const fetchChats = async () => {
+      try {
+        const getAllChatResp = await trackPromise(getAllChats()) as GetAllChatsResponse;
+    if (getAllChatResp.isError || !getAllChatResp.data) {
+      console.log("Error in fetching all chats");
+      return;
+    }
+        setConversations(getAllChatResp.data);
+      } catch (error) {
+        console.error('Failed to fetch conversations:', error);
+      }
+    };
+
+    fetchChats();
+  }, []);
+
   return (
     <div className='liveChatMainDiv'>
-      <LiveChatSideBar conversations={conversations} setCurrentConversation={setCurrentConversation} />
-      <LiveChatContent conversation={currentConversation} />
+      {promiseInProgress ? (
+        <ReactLoading type="spin" color="#1976d2" className="createOrgLoading" />
+      ) : (
+        <>
+          <LiveChatSideBar conversations={conversations} setCurrentConversation={setCurrentConversation} />
+          <LiveChatContent conversation={currentConversation} />
+        </>
+      )}
     </div>
-  )
-}
-
-export default LiveChat
+  );
+  
+          }
+export default LiveChat;

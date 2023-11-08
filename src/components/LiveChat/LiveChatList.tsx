@@ -6,7 +6,7 @@ interface LiveChatListProps {
     setCurrentConversation: React.Dispatch<React.SetStateAction<Conversation | null>>
     }
     type Conversation = {
-        id: number;
+        endUserId: number;
         avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
         name: string;
         timestamp: string;
@@ -32,9 +32,15 @@ function LiveChatList({ conversations,setCurrentConversation}:LiveChatListProps)
         }
       }}
     >
-      {conversations.map(conversation => (
-        <ConversationItem key={conversation.id} conversation={conversation} setCurrentConversation={setCurrentConversation}/>
-      ))}
+      {
+  conversations.map(conversation => (
+    <ConversationItem
+      key={conversation.endUserId.toString()} // Ensuring key is a string as React prefers
+      conversation={conversation}
+      setCurrentConversation={setCurrentConversation}
+    />
+  ))
+}
     </Box>
   );
 }

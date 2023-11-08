@@ -4,7 +4,7 @@ import '../../styles/components/LiveChat/LiveChatSideBar.css'
 import { Divider } from '@mui/material'
 import LiveChatList from './LiveChatList'
 type Conversation = {
-    id: number;
+    endUserId: number;
     avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
     name: string;
     timestamp: string;

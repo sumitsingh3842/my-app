@@ -3,7 +3,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { createStyles, makeStyles } from '@mui/styles';
 
 type Conversation = {
-    id: number;
+    endUserId: number;
     avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
     name: string;
     timestamp: string;

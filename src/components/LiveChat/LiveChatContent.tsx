@@ -4,7 +4,7 @@ import ChatContent from './ChatContent'
 import ChatHeader from './ChatHeader'
 import ChatTypeBar from './ChatTypeBar'
 type Conversation = {
-  id: number;
+  endUserId: number;
   avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
   name: string;
   timestamp: string;
