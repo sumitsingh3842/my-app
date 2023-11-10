@@ -1,15 +1,29 @@
 import { Avatar, Badge, Box, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { createStyles, makeStyles } from '@mui/styles';
-
+import { getChatContent } from '../../axios-client/get-chat-content';
+import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
 type Conversation = {
-    endUserId: number;
+    endUserId: string;
     avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
     name: string;
     timestamp: string;
     lastMessage: string;
     unreadCount?: number;
   };
+  type ConversationContent = {
+    endUserId: string;
+    source: string;
+    integrationId: string;
+    message: string;
+    createdEpoch: number;
+    unread:string;
+  
+  };
+  interface GetChatContentResponse {
+    isError: boolean;
+    data?: ConversationContent[];
+  }
   const useStyles = makeStyles(() => ({
     hoverBox: {
       '&:hover': {
@@ -19,8 +33,21 @@ type Conversation = {
       },
     },
   }));
-const ConversationItem: React.FC<{ conversation: Conversation,setCurrentConversation: React.Dispatch<React.SetStateAction<Conversation | null>> }> = ({ conversation,setCurrentConversation }) => {
+const ConversationItem: React.FC<{ conversation: Conversation,setCurrentConversation: React.Dispatch<React.SetStateAction<ConversationContent[] | null>> }> = ({ conversation,setCurrentConversation }) => {
   const classes = useStyles();
+  const fetchChatContent = async (conversation:Conversation) => {
+    try {
+      const { endUserId } = conversation;
+      const getChatContentResp = await trackPromise(getChatContent(endUserId)) as GetChatContentResponse;
+  if (getChatContentResp.isError || !getChatContentResp.data) {
+    console.log("Error in fetching chat content");
+    return;
+  }
+  setCurrentConversation(getChatContentResp.data);
+    } catch (error) {
+      console.error('Failed to fetch conversations:', error);
+    }
+  };
     return (
       <Box 
       display="flex" 
@@ -30,7 +57,7 @@ const ConversationItem: React.FC<{ conversation: Conversation,setCurrentConversa
       borderRadius="8px" 
       marginBottom="8px" 
       className={classes.hoverBox} 
-      onClick={() => setCurrentConversation(conversation)}
+      onClick={() => fetchChatContent(conversation)}
     >
           <Badge badgeContent={conversation.unreadCount} color="error" max={999} overlap="circular" anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
             <Avatar src={typeof conversation.avatar === 'string' ? conversation.avatar : undefined} sx={{ width: 50, height: 50 }}>

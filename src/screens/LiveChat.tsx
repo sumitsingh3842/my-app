@@ -7,12 +7,21 @@ import { getAllChats } from '../axios-client/get-all-chats';
 import ReactLoading from 'react-loading';
 
 type Conversation = {
-  endUserId: number;
+  endUserId: string;
   avatar: string | React.ReactNode;
   name: string;
   timestamp: string;
   lastMessage: string;
   unreadCount?: number;
+};
+type ConversationContent = {
+  endUserId: string;
+  source: string;
+  integrationId: string;
+  message: string;
+  createdEpoch: number;
+  unread:string;
+
 };
 interface GetAllChatsResponse {
   isError: boolean;
@@ -20,7 +29,7 @@ interface GetAllChatsResponse {
 }
 function LiveChat() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [currentConversation, setCurrentConversation] = useState<Conversation | null>(null);
+  const [currentConversation, setCurrentConversation] = useState<ConversationContent[] | null>(null);
   const { promiseInProgress } = usePromiseTracker();
 
   useEffect(() => {

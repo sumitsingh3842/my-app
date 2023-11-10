@@ -3,41 +3,45 @@ import React from 'react'
 import ChatContent from './ChatContent'
 import ChatHeader from './ChatHeader'
 import ChatTypeBar from './ChatTypeBar'
-type Conversation = {
-  endUserId: number;
-  avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
-  name: string;
-  timestamp: string;
-  lastMessage: string;
-  unreadCount?: number;
+import { getChatContent } from '../../axios-client/get-chat-content'
+import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
+import ReactLoading from 'react-loading';
+type ConversationContent = {
+  endUserId: string;
+  source: string;
+  integrationId: string;
+  message: string;
+  createdEpoch: number;
+  unread:string;
+
 };
-type SourceType = 'user' | 'agent';
-type conversationContent = {
-  source:SourceType,
-  content:string
-}
-function LiveChatContent({conversation}: {conversation: Conversation|null}) {
-  const [conversations, setConversations] = React.useState<conversationContent[]>([]);
+function LiveChatContent({conversation}: {conversation: ConversationContent[]|null}) {
   const [searchQuery, setSearchQuery] = React.useState<string>('');
-  const [filteredConversations, setFilteredConversations] = React.useState<conversationContent[]>(conversations);
+  const [filteredConversations, setFilteredConversations] = React.useState<ConversationContent[]>(conversation || []);
+  const { promiseInProgress } = usePromiseTracker();
 
   React.useEffect(() => {
-    if (searchQuery) {
+    if (searchQuery && conversation) {
       const loweredSearchQuery = searchQuery.toLowerCase();
-      const filtered = conversations.filter(convo => convo.content.toLowerCase().includes(loweredSearchQuery));
+      const filtered = conversation.filter(convo => convo.message.toLowerCase().includes(loweredSearchQuery));
       setFilteredConversations(filtered);
     } else {
-      setFilteredConversations(conversations);
+      setFilteredConversations(conversation || []);
     }
-  }, [conversations, searchQuery]);
-  
+  }, [conversation, searchQuery]);
   return (
     <Box display="flex" flexDirection="column" sx={{width:'80%',backgroundColor:'#20232a',height:'91vh'}}>
-      {conversation && (
+      {promiseInProgress ? (
+        <ReactLoading type="spin" color="#1976d2" className="createOrgLoading" />
+      ) : (
         <>
-          <ChatHeader conversation={conversation} onSearchChange={setSearchQuery} />
+           {conversation && (
+        <>
+          <ChatHeader onSearchChange={setSearchQuery} />
           <ChatContent conversations={filteredConversations} />
-          <ChatTypeBar conversations={conversations} setConversations={setConversations} />
+          <ChatTypeBar conversations={conversation} />
+        </>
+      )}
         </>
       )}
     </Box>

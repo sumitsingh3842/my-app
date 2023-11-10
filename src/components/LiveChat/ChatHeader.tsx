@@ -12,7 +12,6 @@ type Conversation = {
   unreadCount?: number;
 };
 interface ChatHeaderProps {
-  conversation:Conversation|null,
   onSearchChange:React.Dispatch<React.SetStateAction<string>>
 }
 const slideIn = keyframes`
@@ -32,15 +31,12 @@ const slideOut = keyframes`
     width: 0px;
   }
 `;
-const ChatHeader= ({ conversation,onSearchChange }:ChatHeaderProps) => {
+const ChatHeader= ({ onSearchChange }:ChatHeaderProps) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
     <Box display="flex" alignItems="center" padding="16px" bgcolor="#20232a" borderBottom="1px solid #333">
       <Avatar src="path_to_business_logo" />
-      <Typography variant="h6" marginLeft="12px" color="white" mr={2}>
-        {conversation?.name}
-      </Typography>
       <Box flexGrow={1}></Box>
 
       {expanded ? (

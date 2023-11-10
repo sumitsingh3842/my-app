@@ -1,14 +1,17 @@
 import { Box, Typography } from '@mui/material';
 
-type SourceType = 'user' | 'agent';
+type ConversationContent = {
+  endUserId: string;
+  source: string;
+  integrationId: string;
+  message: string;
+  createdEpoch: number;
+  unread:string;
 
-type conversationContent = {
-  source: SourceType;
-  content: string;
 };
 
 type ChatContentProps = {
-  conversations: conversationContent[];
+  conversations: ConversationContent[];
 };
 
 const ChatContent = ({ conversations }: ChatContentProps) => {
@@ -29,7 +32,7 @@ const ChatContent = ({ conversations }: ChatContentProps) => {
           alignSelf={conversation.source === 'user' ? 'flex-start' : 'flex-end'}
           display="flex"
         >
-          <Typography variant="body1">{conversation.content}</Typography>
+          <Typography variant="body1">{conversation.message}</Typography>
         </Box>
       ))}
     </Box>

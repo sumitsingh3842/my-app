@@ -3,23 +3,25 @@ import { Box, Input, IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import AddIcon from '@mui/icons-material/Add';
 
-type SourceType = 'user' | 'agent';
-type conversationContent = {
-  source: SourceType;
-  content: string;
-};
+type ConversationContent = {
+    endUserId: string;
+    source: string;
+    integrationId: string;
+    message: string;
+    createdEpoch: number;
+    unread:string;
+  
+  };
 
 interface ChatTypeBarProps {
-  conversations: conversationContent[];
-  setConversations: React.Dispatch<React.SetStateAction<conversationContent[]>>;
+  conversations: ConversationContent[];
 }
 
-const ChatTypeBar = ({conversations, setConversations}: ChatTypeBarProps) => {
+const ChatTypeBar = ({conversations}: ChatTypeBarProps) => {
     const [message, setMessage] = useState('');
 
     const handleSend = () => {
         if (message.trim() !== '') {
-            setConversations([...conversations, { source: 'user', content: message }]);
             setMessage('');  // Clear the input after sending
         }
     };

@@ -3,15 +3,24 @@ import ConversationItem from './ConversationItem'
 import { Box } from '@mui/material';
 interface LiveChatListProps {
     conversations: Conversation[],
-    setCurrentConversation: React.Dispatch<React.SetStateAction<Conversation | null>>
+    setCurrentConversation: React.Dispatch<React.SetStateAction<ConversationContent[] | null>>
     }
     type Conversation = {
-        endUserId: number;
+        endUserId: string;
         avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
         name: string;
         timestamp: string;
         lastMessage: string;
         unreadCount?: number;
+      };
+      type ConversationContent = {
+        endUserId: string;
+        source: string;
+        integrationId: string;
+        message: string;
+        createdEpoch: number;
+        unread:string;
+      
       };
 function LiveChatList({ conversations,setCurrentConversation}:LiveChatListProps) {
   return (
