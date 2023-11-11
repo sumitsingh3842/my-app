@@ -15,7 +15,13 @@ type ConversationContent = {
   unread:string;
 
 };
-function LiveChatContent({conversation}: {conversation: ConversationContent[]|null}) {
+interface LiveChatContentProps {
+  conversation: ConversationContent[] | null;
+  editConversation: React.Dispatch<React.SetStateAction<ConversationContent[] | null>>;
+  onMessage: (message: MessageEvent) => void; // Type for handling WebSocket messages
+  sendMessage: (message: ConversationContent) => void;
+}
+function LiveChatContent({conversation,editConversation,onMessage,sendMessage}: LiveChatContentProps) {
   const [searchQuery, setSearchQuery] = React.useState<string>('');
   const [filteredConversations, setFilteredConversations] = React.useState<ConversationContent[]>(conversation || []);
   const { promiseInProgress } = usePromiseTracker();
@@ -39,7 +45,7 @@ function LiveChatContent({conversation}: {conversation: ConversationContent[]|nu
         <>
           <ChatHeader onSearchChange={setSearchQuery} />
           <ChatContent conversations={filteredConversations} />
-          <ChatTypeBar conversations={conversation} />
+          <ChatTypeBar conversations={conversation} editConversation={editConversation} onMessage={onMessage} sendMessage={sendMessage} />
         </>
       )}
         </>

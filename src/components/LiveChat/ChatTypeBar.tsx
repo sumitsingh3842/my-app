@@ -15,13 +15,36 @@ type ConversationContent = {
 
 interface ChatTypeBarProps {
   conversations: ConversationContent[];
+  editConversation: React.Dispatch<React.SetStateAction<ConversationContent[] | null>>;
+  onMessage: (message: MessageEvent) => void;
+  sendMessage: (message: ConversationContent) => void;
 }
 
-const ChatTypeBar = ({conversations}: ChatTypeBarProps) => {
+const ChatTypeBar = ({conversations,editConversation,onMessage,sendMessage}: ChatTypeBarProps) => {
     const [message, setMessage] = useState('');
+    const [endUserId, setEndUserId] = useState('');
+    React.useEffect(() => {
+        if (conversations) {
+            const userId = conversations[0].endUserId;
+            setEndUserId(userId);
+        }
+    }, [conversations]);
 
     const handleSend = () => {
         if (message.trim() !== '') {
+            const newMessage: ConversationContent = {
+                // Fill with appropriate data
+                endUserId: endUserId,
+                source: 'agent',
+                integrationId: '123',
+                message: message,
+                createdEpoch: Date.now(),
+                unread: 'false'
+            };
+
+            // Update conversations and call onMessage
+            sendMessage(newMessage);
+            editConversation(prevConversations => [...(prevConversations || []), newMessage]);
             setMessage('');  // Clear the input after sending
         }
     };
