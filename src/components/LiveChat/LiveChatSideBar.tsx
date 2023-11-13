@@ -31,7 +31,7 @@ function LiveChatSideBar({conversations,setCurrentConversation}: LiveChatSideBar
   );
     
   return (
-    <div style={{ backgroundColor: '#333', padding: '20px',width:'40%' }}>
+    <div style={{ backgroundColor: '#333', padding: '20px',width:'40%',height:'100%' }}>
     <SearchBar value={searchQuery} onChange={setSearchQuery} />
     <Divider sx={{ marginBottom: 2 }} />
     <LiveChatList conversations={filteredConversations} setCurrentConversation={setCurrentConversation} />
