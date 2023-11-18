@@ -1,28 +1,9 @@
-import React from 'react'
-import ConversationItem from './ConversationItem'
+import React from 'react';
+import ConversationItem from './ConversationItem';
 import { Box } from '@mui/material';
-interface LiveChatListProps {
-    conversations: Conversation[],
-    setCurrentConversation: React.Dispatch<React.SetStateAction<ConversationContent[] | null>>
-    }
-    type Conversation = {
-        endUserId: string;
-        avatar: string | React.ReactNode; // Either a URL to an image or a React Node for icons
-        name: string;
-        timestamp: string;
-        lastMessage: string;
-        unreadCount?: number;
-      };
-      type ConversationContent = {
-        endUserId: string;
-        source: string;
-        integrationId: string;
-        message: string;
-        createdEpoch: number;
-        unread:string;
-      
-      };
-function LiveChatList({ conversations,setCurrentConversation}:LiveChatListProps) {
+import { Conversation } from './types';
+function LiveChatList({ conversations }: { conversations: Conversation[]}) {
+
   return (
     <Box 
       bgcolor="#333" 
@@ -42,16 +23,15 @@ function LiveChatList({ conversations,setCurrentConversation}:LiveChatListProps)
       }}
     >
       {
-  conversations.map(conversation => (
-    <ConversationItem
-      key={conversation.endUserId.toString()} // Ensuring key is a string as React prefers
-      conversation={conversation}
-      setCurrentConversation={setCurrentConversation}
-    />
-  ))
-}
+        conversations.map(conversation => (
+          <ConversationItem
+            key={conversation.endUserId}
+            conversation={conversation}
+          />
+        ))
+      }
     </Box>
   );
 }
 
-export default LiveChatList
+export default LiveChatList;

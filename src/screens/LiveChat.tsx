@@ -1,44 +1,17 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import LiveChatContent from '../components/LiveChat/LiveChatContent';
 import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
 import LiveChatSideBar from '../components/LiveChat/LiveChatSideBar';
 import '../styles/screens/LiveChat.css';
 import { getAllChats } from '../axios-client/get-all-chats';
 import ReactLoading from 'react-loading';
-
-type Conversation = {
-  endUserId: string;
-  avatar: string | React.ReactNode;
-  name: string;
-  timestamp: string;
-  lastMessage: string;
-  unreadCount?: number;
-};
-type ConversationContent = {
-  endUserId: string;
-  source: string;
-  integrationId: string;
-  message: string;
-  createdEpoch: number;
-  unread:string;
-};
+import { setConversations } from '../features/LiveChat/liveChatSlice'; // Adjust import path
+import { Conversation, ConversationContent } from '../components/LiveChat/types';
 interface GetAllChatsResponse {
   isError: boolean;
   data?: Conversation[];
 }
-const conversationMock: Conversation[] = [
-  {
-    endUserId: '7045623355',
-    avatar: 'https://i.pravatar.cc/150?img=1',
-    name: 'John Doe',
-    timestamp: '12:00 PM',
-    lastMessage: 'Hello',
-    unreadCount: 2
-  }
-]
 function LiveChat() {
-  const [conversations, setConversations] = useState<Conversation[]>(conversationMock);
-  const [currentConversation, setCurrentConversation] = useState<ConversationContent[] | null>(null);
   const { promiseInProgress } = usePromiseTracker();
   const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
 
@@ -55,51 +28,51 @@ function LiveChat() {
     }
   };
   
-  // useEffect(() => {
-  //   // Function to fetch all chats and update the state
-  //   const fetchChats = async () => {
-  //     try {
-  //       const getAllChatResp = await trackPromise(getAllChats()) as GetAllChatsResponse;
-  //       if (getAllChatResp.isError || !getAllChatResp.data) {
-  //         console.log("Error in fetching all chats");
-  //         return;
-  //       }
-  //       setConversations(getAllChatResp.data);
-  //     } catch (error) {
-  //       console.error('Failed to fetch conversations:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    // Function to fetch all chats and update the state
+    const fetchChats = async () => {
+      try {
+        const getAllChatResp = await trackPromise(getAllChats()) as GetAllChatsResponse;
+        if (getAllChatResp.isError || !getAllChatResp.data) {
+          console.log("Error in fetching all chats");
+          return;
+        }
+        setConversations(getAllChatResp.data);
+      } catch (error) {
+        console.error('Failed to fetch conversations:', error);
+      }
+    };
 
-  //   fetchChats();
-  // }, []);
-  // useEffect(() => {
-  //   const connectWebSocket = () => {
-  //     const webSocketURL = 'wss://i0rx0pujef.execute-api.us-east-1.amazonaws.com/dev?integrationId=123&liveId=123'; // Replace with your WebSocket URL
-  //     const ws = new WebSocket(webSocketURL);
+    fetchChats();
+  }, []);
+  useEffect(() => {
+    const connectWebSocket = () => {
+      const webSocketURL = 'wss://zj08u192fg.execute-api.us-east-1.amazonaws.com/dev?integrationId=123&liveId=123'; // Replace with your WebSocket URL
+      const ws = new WebSocket(webSocketURL);
 
-  //     ws.onopen = () => {
-  //       console.log('WebSocket Connected');
-  //       setWebSocket(ws);
-  //     };
+      ws.onopen = () => {
+        console.log('WebSocket Connected');
+        setWebSocket(ws);
+      };
 
-  //     ws.onmessage = handleMessage;
+      ws.onmessage = handleMessage;
 
-  //     ws.onerror = (error) => {
-  //       console.error('WebSocket Error:', error);
-  //     };
+      ws.onerror = (error) => {
+        console.error('WebSocket Error:', error);
+      };
 
-  //     ws.onclose = () => {
-  //       console.log('WebSocket Disconnected');
-  //     };
-  //   };
+      ws.onclose = () => {
+        console.log('WebSocket Disconnected');
+      };
+    };
 
-  //   connectWebSocket();
-  //   return () => {
-  //     if (webSocket) {
-  //       webSocket.close();
-  //     }
-  //   };
-  // }, [handleMessage]);
+    connectWebSocket();
+    return () => {
+      if (webSocket) {
+        webSocket.close();
+      }
+    };
+  }, [handleMessage]);
 
   return (
     <div className='liveChatMainDiv'>
@@ -107,8 +80,8 @@ function LiveChat() {
         <ReactLoading type="spin" color="#1976d2" className="createOrgLoading" />
       ) : (
         <>
-          <LiveChatSideBar conversations={conversations} setCurrentConversation={setCurrentConversation} />
-          <LiveChatContent conversation={currentConversation} editConversation={setCurrentConversation} onMessage={handleMessage} sendMessage={sendMessage}/>
+          <LiveChatSideBar />
+          <LiveChatContent onMessage={handleMessage} sendMessage={sendMessage}/>
         </>
       )}
     </div>

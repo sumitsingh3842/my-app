@@ -1,57 +1,49 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import ChatContent from './ChatContent'
-import ChatHeader from './ChatHeader'
-import ChatTypeBar from './ChatTypeBar'
-import { getChatContent } from '../../axios-client/get-chat-content'
-import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
+import React, { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
+import ChatContent from './ChatContent';
+import ChatHeader from './ChatHeader';
+import ChatTypeBar from './ChatTypeBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../app/store'; // Adjust the import path as needed
+import { setSelectedConversationContent } from '../../features/LiveChat/liveChatSlice'; // Adjust import paths
 import ReactLoading from 'react-loading';
-type ConversationContent = {
-  endUserId: string;
-  source: string;
-  integrationId: string;
-  message: string;
-  createdEpoch: number;
-  unread:string;
-
-};
+import { usePromiseTracker } from 'react-promise-tracker';
+import { ConversationContent } from './types';
 interface LiveChatContentProps {
-  conversation: ConversationContent[] | null;
-  editConversation: React.Dispatch<React.SetStateAction<ConversationContent[] | null>>;
   onMessage: (message: MessageEvent) => void; // Type for handling WebSocket messages
   sendMessage: (message: ConversationContent) => void;
 }
-function LiveChatContent({conversation,editConversation,onMessage,sendMessage}: LiveChatContentProps) {
-  const [searchQuery, setSearchQuery] = React.useState<string>('');
-  const [filteredConversations, setFilteredConversations] = React.useState<ConversationContent[]>(conversation || []);
+function LiveChatContent({ onMessage, sendMessage: handleSendMessage }: LiveChatContentProps) {
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const dispatch = useDispatch();
+  const currentConversation = useSelector((state: RootState) => state.liveChat.selectedConversationContent);
   const { promiseInProgress } = usePromiseTracker();
 
-  React.useEffect(() => {
-    if (searchQuery && conversation) {
+  useEffect(() => {
+    if (searchQuery && currentConversation) {
       const loweredSearchQuery = searchQuery.toLowerCase();
-      const filtered = conversation.filter(convo => convo.message.toLowerCase().includes(loweredSearchQuery));
-      setFilteredConversations(filtered);
-    } else {
-      setFilteredConversations(conversation || []);
+      const filtered = currentConversation.filter(convo => convo.message.toLowerCase().includes(loweredSearchQuery));
+      dispatch(setSelectedConversationContent(filtered));
     }
-  }, [conversation, searchQuery]);
+  }, [currentConversation, searchQuery, dispatch]);
+
   return (
-    <Box display="flex" flexDirection="column" sx={{width:'80%',backgroundColor:'#20232a',height:'91vh'}}>
+    <Box display="flex" flexDirection="column" sx={{ width: '80%', backgroundColor: '#20232a', height: '91vh' }}>
       {promiseInProgress ? (
         <ReactLoading type="spin" color="#1976d2" className="createOrgLoading" />
       ) : (
         <>
-           {conversation && (
-        <>
-          <ChatHeader onSearchChange={setSearchQuery} />
-          <ChatContent conversations={filteredConversations} />
-          <ChatTypeBar conversations={conversation} editConversation={editConversation} onMessage={onMessage} sendMessage={sendMessage} />
-        </>
-      )}
+          {currentConversation && (
+            <>
+              <ChatHeader onSearchChange={setSearchQuery} />
+              <ChatContent conversations={currentConversation} />
+              <ChatTypeBar sendMessage={handleSendMessage} />
+            </>
+          )}
         </>
       )}
     </Box>
   );
 }
 
-export default LiveChatContent
+export default LiveChatContent;

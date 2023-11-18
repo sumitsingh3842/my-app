@@ -23,7 +23,8 @@ export async function getAllChats() {
   } catch (error) {
     console.error(error);
     const response={
-      isError:true
+      isError:true,
+      data:[]
     }
     return response;
   }

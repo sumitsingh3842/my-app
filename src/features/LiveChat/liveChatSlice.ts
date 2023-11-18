@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Conversation {
     endUserId: string;
-    avatar: string | React.ReactNode;
     name: string;
+    avatar: string;
     timestamp: string;
     lastMessage: string;
     unreadCount?: number;
@@ -24,6 +24,7 @@ interface SelectedConversation{
 interface conversationsState {
   conversations: Conversation[];
   selectedConversation: SelectedConversation;
+  selectedConversationContent?: ConversationContent[];
 }
 
 const initialState: conversationsState = {
@@ -39,7 +40,7 @@ export const liveChatSlice = createSlice({
   name: 'livechat',
   initialState,
   reducers: {
-    setConversation: (state, action: PayloadAction<Conversation[]>) => {
+    setConversations: (state, action: PayloadAction<Conversation[]>) => {
         state.conversations = action.payload;
         },
     addConversation: (state, action: PayloadAction<Conversation>) => {
@@ -47,10 +48,16 @@ export const liveChatSlice = createSlice({
         },
     setSelectedConversation: (state, action: PayloadAction<SelectedConversation>) => {
         state.selectedConversation = action.payload;
+        },
+    setSelectedConversationContent: (state, action: PayloadAction<ConversationContent[]>) => {
+        state.selectedConversationContent = action.payload;
+        },
+    addConversationContent: (state, action: PayloadAction<ConversationContent>) => {
+        state.selectedConversationContent?.push(action.payload);
         }
   },
 });
 
-export const { setConversation, addConversation, setSelectedConversation } = liveChatSlice.actions;
+export const { setConversations, addConversation, setSelectedConversation, setSelectedConversationContent, addConversationContent } = liveChatSlice.actions;
 
 export default liveChatSlice.reducer;
