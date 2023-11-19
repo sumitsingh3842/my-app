@@ -4,20 +4,22 @@ import ChatContent from './ChatContent';
 import ChatHeader from './ChatHeader';
 import ChatTypeBar from './ChatTypeBar';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../app/store'; // Adjust the import path as needed
-import { setSelectedConversationContent } from '../../features/LiveChat/liveChatSlice'; // Adjust import paths
+import { RootState } from '../../app/store';
+import { setSelectedConversationContent } from '../../features/LiveChat/liveChatSlice';
 import ReactLoading from 'react-loading';
 import { usePromiseTracker } from 'react-promise-tracker';
 import { ConversationContent } from './types';
+
 interface LiveChatContentProps {
-  onMessage: (message: MessageEvent) => void; // Type for handling WebSocket messages
+  onMessage: (message: MessageEvent) => void;
   sendMessage: (message: ConversationContent) => void;
 }
+
 function LiveChatContent({ onMessage, sendMessage: handleSendMessage }: LiveChatContentProps) {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
   const currentConversation = useSelector((state: RootState) => state.liveChat.selectedConversationContent);
-  const { promiseInProgress } = usePromiseTracker();
+  const { promiseInProgress } = usePromiseTracker({ area: 'liveChatContentArea' }); // Specify area for tracking
 
   useEffect(() => {
     if (searchQuery && currentConversation) {
@@ -28,9 +30,9 @@ function LiveChatContent({ onMessage, sendMessage: handleSendMessage }: LiveChat
   }, [currentConversation, searchQuery, dispatch]);
 
   return (
-    <Box display="flex" flexDirection="column" sx={{ width: '80%', backgroundColor: '#20232a', height: '91vh' }}>
+    <Box display="flex" flexDirection="column" sx={{ width: '80%', backgroundColor: '#20232a', height: '91vh',justifyContent:'center',alignItems:'center' }}>
       {promiseInProgress ? (
-        <ReactLoading type="spin" color="#1976d2" className="createOrgLoading" />
+        <ReactLoading type="spin" color="#1976d2" className="liveChatContentLoading" />
       ) : (
         <>
           {currentConversation && (

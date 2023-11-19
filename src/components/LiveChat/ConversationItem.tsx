@@ -29,7 +29,7 @@ const ConversationItem: React.FC<{ conversation: Conversation }> = ({ conversati
 
   const fetchChatContent = async () => {
     try {
-      const getChatContentResp = await trackPromise(getChatContent(conversation.endUserId)) as GetChatContentResponse;
+      const getChatContentResp = await trackPromise(getChatContent(conversation.endUserId),'liveChatContentArea') as GetChatContentResponse;
       if (getChatContentResp.isError || !getChatContentResp.data) {
         console.log("Error in fetching chat content");
         return;

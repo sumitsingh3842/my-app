@@ -7,6 +7,8 @@ import { getAllChats } from '../axios-client/get-all-chats';
 import ReactLoading from 'react-loading';
 import { setConversations } from '../features/LiveChat/liveChatSlice'; // Adjust import path
 import { Conversation, ConversationContent } from '../components/LiveChat/types';
+import { useSelector,useDispatch } from 'react-redux';
+import { RootState } from '../app/store';
 interface GetAllChatsResponse {
   isError: boolean;
   data?: Conversation[];
@@ -14,7 +16,8 @@ interface GetAllChatsResponse {
 function LiveChat() {
   const { promiseInProgress } = usePromiseTracker();
   const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
-
+  const conversations = useSelector((state: RootState) => state.liveChat.conversations);
+  const dispatch = useDispatch();
   // `useCallback` is used to memoize the `handleMessage` function.
   const handleMessage = useCallback((message: MessageEvent) => {
     console.log('WebSocket message:', message.data);
@@ -37,7 +40,7 @@ function LiveChat() {
           console.log("Error in fetching all chats");
           return;
         }
-        setConversations(getAllChatResp.data);
+        dispatch(setConversations(getAllChatResp.data));
       } catch (error) {
         console.error('Failed to fetch conversations:', error);
       }
@@ -77,10 +80,10 @@ function LiveChat() {
   return (
     <div className='liveChatMainDiv'>
       {promiseInProgress ? (
-        <ReactLoading type="spin" color="#1976d2" className="createOrgLoading" />
+        <ReactLoading type="spin" color="#1976d2" className="liveChatLoading" />
       ) : (
         <>
-          <LiveChatSideBar />
+          <LiveChatSideBar conversations={conversations} />
           <LiveChatContent onMessage={handleMessage} sendMessage={sendMessage}/>
         </>
       )}
