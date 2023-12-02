@@ -2,11 +2,12 @@ import React from 'react';
 import { Avatar, Badge, Box, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { createStyles, makeStyles } from '@mui/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedConversation,setSelectedConversationContent } from '../../features/LiveChat/liveChatSlice'; // Adjust import path
 import { getChatContent } from '../../axios-client/get-chat-content';
 import { trackPromise } from 'react-promise-tracker';
 import { Conversation, ConversationContent } from './types';
+import { RootState } from '../../app/store';
 interface GetChatContentResponse {
   isError: boolean;
   data?: ConversationContent[];
@@ -26,7 +27,7 @@ const useStyles = makeStyles(() =>
 const ConversationItem: React.FC<{ conversation: Conversation }> = ({ conversation }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const selectedConversation = useSelector((state: RootState) => state.liveChat.selectedConversation);
   const fetchChatContent = async () => {
     try {
       const getChatContentResp = await trackPromise(getChatContent(conversation.endUserId),'liveChatContentArea') as GetChatContentResponse;
@@ -34,39 +35,41 @@ const ConversationItem: React.FC<{ conversation: Conversation }> = ({ conversati
         console.log("Error in fetching chat content");
         return;
       }
-      dispatch(setSelectedConversation(conversation));
       dispatch(setSelectedConversationContent(getChatContentResp.data));
     } catch (error) {
       console.error('Failed to fetch conversations:', error);
     }
   };
-    return (
-      <Box 
+  return (
+    <Box 
       display="flex" 
       alignItems="center" 
       padding="12px 16px" 
-      bgcolor={conversation.unreadCount ? "#202c33" : "#0c1317"} 
+      bgcolor={conversation.endUserId === selectedConversation.endUserId ? "#202c33" : "#0c1317"} 
       borderRadius="8px" 
       marginBottom="8px" 
       className={classes.hoverBox} 
-      onClick={() => fetchChatContent()}
+      onClick={() => {
+        fetchChatContent();
+        dispatch(setSelectedConversation(conversation));
+      }}
     >
-          <Badge badgeContent={conversation.unreadCount} color="error" max={999} overlap="circular" anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-            <Avatar src={typeof conversation.avatar === 'string' ? conversation.avatar : undefined} sx={{ width: 50, height: 50 }}>
-              {typeof conversation.avatar !== 'string' && conversation.avatar}
-            </Avatar>
-          </Badge>
-          <Box flexGrow={1} marginLeft="12px">
-            <Typography variant="h6" color="white">{conversation.name}</Typography>
-            <Box display="flex" alignItems="center">
-              <CheckIcon fontSize="small" color="inherit" />
-              <Typography variant="body2" color="grey" marginLeft="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
-                {conversation.lastMessage}
-              </Typography>
-            </Box>
-          </Box>
-          <Typography variant="caption" color="grey">{conversation.timestamp}</Typography>
+      <Badge badgeContent={conversation.unreadCount} color="error" max={999} overlap="circular" anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+        <Avatar src={typeof conversation.avatar === 'string' ? conversation.avatar : undefined} sx={{ width: 50, height: 50 }}>
+          {typeof conversation.avatar !== 'string' && conversation.avatar}
+        </Avatar>
+      </Badge>
+      <Box flexGrow={1} marginLeft="12px">
+        <Typography variant="h6" color="white">{conversation.name}</Typography>
+        <Box display="flex" alignItems="center">
+          <CheckIcon fontSize="small" color="inherit" />
+          <Typography variant="body2" color="grey" marginLeft="4px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+            {conversation.lastMessage}
+          </Typography>
         </Box>
-      );
+      </Box>
+      <Typography variant="caption" color="grey">{conversation.timestamp}</Typography>
+    </Box>
+  );  
 };
 export default ConversationItem;

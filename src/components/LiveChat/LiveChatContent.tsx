@@ -11,11 +11,10 @@ import { usePromiseTracker } from 'react-promise-tracker';
 import { ConversationContent } from './types';
 
 interface LiveChatContentProps {
-  onMessage: (message: MessageEvent) => void;
   sendMessage: (message: ConversationContent) => void;
 }
 
-function LiveChatContent({ onMessage, sendMessage: handleSendMessage }: LiveChatContentProps) {
+function LiveChatContent({ sendMessage: handleSendMessage }: LiveChatContentProps) {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
   const currentConversation = useSelector((state: RootState) => state.liveChat.selectedConversationContent);
@@ -30,7 +29,17 @@ function LiveChatContent({ onMessage, sendMessage: handleSendMessage }: LiveChat
   }, [currentConversation, searchQuery, dispatch]);
 
   return (
-    <Box display="flex" flexDirection="column" sx={{ width: '80%', backgroundColor: '#20232a', height: '91vh',justifyContent:'center',alignItems:'center' }}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      sx={{
+        width: '80%',
+        backgroundColor: '#20232a',
+        height: '91vh',
+        justifyContent: promiseInProgress ? 'center' : 'flex-start', // Default to 'flex-start' when not loading
+        alignItems: promiseInProgress ? 'center' : 'stretch' // Default to 'stretch' when not loading
+      }}
+    >
       {promiseInProgress ? (
         <ReactLoading type="spin" color="#1976d2" className="liveChatContentLoading" />
       ) : (
@@ -46,6 +55,7 @@ function LiveChatContent({ onMessage, sendMessage: handleSendMessage }: LiveChat
       )}
     </Box>
   );
+  
 }
 
 export default LiveChatContent;

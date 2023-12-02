@@ -29,7 +29,7 @@ const ChatTypeBar = ({sendMessage}:ChatTypeBarProps) => {
         integrationId: '123', // Replace with actual integration ID
         message: message,
         createdEpoch: Date.now(),
-        unread: 'false'
+        unread: false
       };
 
       sendMessage(newMessage);

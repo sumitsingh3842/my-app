@@ -14,7 +14,7 @@ interface ConversationContent {
     integrationId: string;
     message: string;
     createdEpoch: number;
-    unread:string;
+    unread:boolean;
   };
 interface SelectedConversation{
     endUserId: string;
