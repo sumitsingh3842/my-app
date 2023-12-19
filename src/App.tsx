@@ -39,6 +39,11 @@ function App() {
       element: <ChatBot />,
     }
   ]);
+  
+  const { isLoading } = useAuth0();
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <Provider store={store}>
     <RouterProvider router={router} />

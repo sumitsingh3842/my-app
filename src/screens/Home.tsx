@@ -5,7 +5,8 @@ import HomeBody from '../components/Home/HomeBody'
 function Home() {
   return (
     <div className="home">
-      <p>Sumit</p>
+      <HomeNav />
+      <HomeBody />
     </div>
   )
 }
