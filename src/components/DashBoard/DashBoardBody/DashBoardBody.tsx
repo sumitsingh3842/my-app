@@ -21,13 +21,7 @@ const DashBoardBody= () => {
     }
   }, [getIdTokenClaims, isAuthenticated]);
   return (
-    isAuthenticated && user ? (
-      <OrganisationPage/>
-    ) : (
-      <div>
-        <p>User is not authenticated.</p>
-      </div>
-    )
+    <OrganisationPage/>
   );
 };
 
