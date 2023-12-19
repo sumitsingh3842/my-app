@@ -12,14 +12,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Auth0Provider
-    domain="dev-e8ngvuo2ygnrkkuq.us.auth0.com"
-    clientId="PNjOJHf22DLmXJ9wVAbxpNwfotMtqmVr"
-    authorizationParams={{
-      redirect_uri: "https://sumitsingh3842.github.io/my-app/dashboard"
-    }}
-  >
     <App />
-  </Auth0Provider>
   </React.StrictMode>
 );
