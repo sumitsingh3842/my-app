@@ -12,6 +12,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <div>Sumit</div>
   </React.StrictMode>
 );

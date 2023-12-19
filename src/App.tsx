@@ -39,11 +39,14 @@ function App() {
       element: <ChatBot />,
     }
   ]);
+  // return (
+  //   <Provider store={store}>
+  //   <RouterProvider router={router} />
+  //   </Provider>
+  // );
   return (
-    <Provider store={store}>
-    <RouterProvider router={router} />
-    </Provider>
-  );
+    <div>Sumit</div>
+  )
 }
 
 export default App;
