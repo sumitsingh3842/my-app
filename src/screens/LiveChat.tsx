@@ -5,7 +5,7 @@ import LiveChatSideBar from '../components/LiveChat/LiveChatSideBar';
 import '../styles/screens/LiveChat.css';
 import { getAllChats } from '../axios-client/get-all-chats';
 import ReactLoading from 'react-loading';
-import { setConversations } from '../features/LiveChat/liveChatSlice';
+import { setConversations,addConversationContent } from '../features/LiveChat/liveChatSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
 import { Conversation, ConversationContent } from '../components/LiveChat/types';
@@ -41,6 +41,9 @@ function LiveChat() {
 
     ws.onmessage = (message) => {
       console.log('WebSocket message:', message.data);
+      const data= JSON.parse(message.data);
+      if(data.source === 'user')
+      dispatch(addConversationContent(data));
     };
 
     ws.onerror = (error) => {
