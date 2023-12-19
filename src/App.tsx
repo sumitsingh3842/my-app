@@ -23,23 +23,19 @@ function App() {
       element: <Home />,
     },
     {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "dashboard",
+      path: "my-app/dashboard",
       element: <DashBoard />,
     },
     {
-      path: "profile",
+      path: "my-app/profile",
       element: <Profile />,
     },
     {
-      path: "project/:orgName/:orgId",
+      path: "my-app/project/:orgName/:orgId",
       element: <OrganisationDetails />,
     },
     {
-      path: "create-chat-bot",
+      path: "my-app/create-chat-bot",
       element: <ChatBot />,
     }
   ]);
