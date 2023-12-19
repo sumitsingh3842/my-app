@@ -1,11 +1,11 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 
 const LoginButton = () => {
-  const { loginWithRedirect } = useAuth0();
+  const navigate = useNavigate();
   const loginWithRedirectFunc = async() => {
-    await loginWithRedirect();
+    navigate('/my-app/dashboard')
     
   }
   return <Button onClick={() => loginWithRedirectFunc()} color="inherit">Login</Button>
