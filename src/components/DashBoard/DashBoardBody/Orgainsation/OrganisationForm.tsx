@@ -8,14 +8,12 @@ import {
   Typography,
   Switch, // Import the Switch component
 } from '@mui/material';
-import { useAuth0 } from "@auth0/auth0-react";
 import { createOrganisation } from '../../../../axios-client/create-organisation';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppDispatch } from '../../../../app/hooks';
 import { addOrganisation } from '../../../../features/DashBoard/dashBoardSlice';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../../Loading/Loading';
-import {  withAuthenticationRequired } from "@auth0/auth0-react";
 import { usePromiseTracker,trackPromise  } from 'react-promise-tracker';
 import ReactLoading from 'react-loading';
 import '../../../../styles/screens/OrganisationForm.css'
@@ -31,15 +29,12 @@ interface OrganisationProps{
 }
 
 const OrganisationForm = ({setOrgForm}:OrganisationProps) => {
-  const { user } = useAuth0();
   const navigate = useNavigate();
   const { register, handleSubmit, formState } = useForm<FormData>();
   const [isPremium, setIsPremium] = useState(false); // State for the premium mode
   const dispatch = useAppDispatch();
   const { promiseInProgress } = usePromiseTracker(); 
   const onSubmit = async (data: FormData) => {
-
-    data.emailId=user?.email;
     data.isPremium=isPremium;
     console.log('Premium Mode:', isPremium); // Log the selected mode
     trackPromise(
@@ -114,7 +109,4 @@ const OrganisationForm = ({setOrgForm}:OrganisationProps) => {
     </Grid>
   );
 };
-
-export default withAuthenticationRequired(OrganisationForm, {
-  onRedirecting: () => <Loading />,
-});
+export default OrganisationForm;

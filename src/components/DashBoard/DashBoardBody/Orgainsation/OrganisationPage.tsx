@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
-import { useAuth0 } from "@auth0/auth0-react";
 import { getAllOrgs } from '../../../../axios-client/get-all-organisation';
 import { setOrganisation,setSelectedOrg } from '../../../../features/DashBoard/dashBoardSlice';
 import '../../../../styles/components/DashBoard/DashBoardBody/OrganisationPage.css';
@@ -25,14 +24,13 @@ function OrganisationPage() {
   const dispatch = useAppDispatch();
   const { promiseInProgress } = usePromiseTracker();
   const organisations = useAppSelector((state) => state.dashboard.organisations);
-  const { user, isAuthenticated } = useAuth0();
   const [orgForm, setOrgForm] = useState(false);
   const [orgsFetched, setOrgsFetched] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   
   async function getOrgs() {
     trackPromise(
-      getAllOrgs(user?.email)
+      getAllOrgs()
         .then((orgsResp) => {
           if (!orgsResp.isError) {
             if ('data' in orgsResp) {
@@ -44,13 +42,6 @@ function OrganisationPage() {
         })
     );
   }
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      console.log("UserId", user?.sub);
-      getOrgs();
-    }
-  }, [isAuthenticated]);
 
   useEffect(() => {
     console.log(organisations);

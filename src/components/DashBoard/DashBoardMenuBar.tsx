@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
@@ -14,18 +13,9 @@ import name from '../../media/images/company-name-white.png'
 import '../../styles/components/DashBoard/DashBoardMenuBar.css'
 
 function DashBoardMenuBar() {
-  const {
-    user,
-    isAuthenticated,
-    logout,
-  } = useAuth0();
   const navigate = useNavigate();
   const logoutWithRedirect = () =>
-    logout({
-        logoutParams: {
-          returnTo: window.location.origin,
-        }
-    });
+    console.log('logoutWithRedirect');
   return (
     <AppBar position="static" sx={{backgroundColor:'black',height:'8.8vh'}}>
       <Toolbar>
@@ -35,7 +25,6 @@ function DashBoardMenuBar() {
         <div style={{ flexGrow: 1 }}>
           {/* You can also add a company name text here */}
         </div>
-        {isAuthenticated && user && (
                 <Box sx={{ flexGrow: 0 }}>
                 <IconButton onClick={()=>navigate('/profile')} className="profileIcon">
                   <Person2Icon  />
@@ -47,7 +36,6 @@ function DashBoardMenuBar() {
               <PowerSettingsNewOutlinedIcon />
             </IconButton>
             </Box>
-              )}
       </Toolbar>
     </AppBar>
   );

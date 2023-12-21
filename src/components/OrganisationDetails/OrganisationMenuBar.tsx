@@ -1,5 +1,4 @@
 import React from 'react';
-import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
@@ -14,18 +13,9 @@ interface OrganisationMenuBarProps{
     orgName:string
   }
 function OrganisationMenuBar({orgName}:OrganisationMenuBarProps) {
-  const {
-    user,
-    isAuthenticated,
-    logout,
-  } = useAuth0();
   const navigate = useNavigate();
-  const logoutWithRedirect = () =>
-    logout({
-        logoutParams: {
-          returnTo: window.location.origin,
-        }
-    });
+  const logoutWithRedirect = () => console.log("S");
+    
   return (
     <AppBar position="static" sx={{backgroundColor:'#1c1c1c',height:'8.8vh'}}>
       <Toolbar>
@@ -34,7 +24,6 @@ function OrganisationMenuBar({orgName}:OrganisationMenuBarProps) {
         <div style={{ flexGrow: 1 }}>
           {/* You can also add a company name text here */}
         </div>
-        {isAuthenticated && user && (
                 <Box sx={{ flexGrow: 0 }}>
                 <IconButton onClick={()=>navigate('/profile')} className="profileIcon">
                   <Person2Icon  />
@@ -46,7 +35,6 @@ function OrganisationMenuBar({orgName}:OrganisationMenuBarProps) {
               <PowerSettingsNewOutlinedIcon />
             </IconButton>
             </Box>
-              )}
       </Toolbar>
     </AppBar>
   );

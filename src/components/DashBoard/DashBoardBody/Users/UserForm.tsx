@@ -7,9 +7,7 @@ import {
   Box,
   Typography
 } from '@mui/material';
-import {withAuthenticationRequired} from '@auth0/auth0-react';
 import CloseIcon from '@mui/icons-material/Close';
-import Loading from '../../../Loading/Loading';
 interface FormData {
   email: string;
   phone_number: string;
@@ -26,7 +24,7 @@ interface UserFormProps {
   setUserForm: (value:boolean) => void;
 }
 
-export const UserForm = ({setUserForm}:UserFormProps) => {
+const UserForm = ({setUserForm}:UserFormProps) => {
   const { register, handleSubmit, formState } = useForm<FormData>();
   const onSubmit = async(data: FormData) => {
     console.log(data);
@@ -75,6 +73,4 @@ export const UserForm = ({setUserForm}:UserFormProps) => {
     </form>
   );
 };
-export default withAuthenticationRequired(UserForm, {
-  onRedirecting: () => <Loading />,
-});
+export default UserForm;

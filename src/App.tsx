@@ -8,7 +8,6 @@ import Home from './screens/Home';
 import DashBoard from './screens/DashBoard';
 import { Provider } from 'react-redux'
 import {store} from './app/store'
-import { useAuth0 } from '@auth0/auth0-react';
 import Profile from './screens/Profile';
 import Loading from './components/Loading/Loading';
 import OrganisationDetails from './screens/OrganisationDetails';
