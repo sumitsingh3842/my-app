@@ -1,10 +1,8 @@
 /*
-      object-assign
-      (c) Sindre Sorhus
-      @license MIT
-      */
-
-/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+    object-assign
+    (c) Sindre Sorhus
+    @license MIT
+    */
 
 /**
  * @license React
@@ -77,7 +75,7 @@
  */
 
 /**
- * @remix-run/router v1.8.0
+ * @remix-run/router v1.14.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -96,7 +94,7 @@
  */
 
 /**
- * React Router DOM v6.15.0
+ * React Router DOM v6.21.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -107,7 +105,7 @@
  */
 
 /**
- * React Router v6.15.0
+ * React Router v6.21.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -127,10 +125,10 @@
  */
 
 /** @license React v16.3.2
-       * react.production.min.js
-       *
-       * Copyright (c) 2013-present, Facebook, Inc.
-       *
-       * This source code is licensed under the MIT license found in the
-       * LICENSE file in the root directory of this source tree.
-       */
+     * react.production.min.js
+     *
+     * Copyright (c) 2013-present, Facebook, Inc.
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE file in the root directory of this source tree.
+     */
