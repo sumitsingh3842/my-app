@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from "react-router-dom";
 import LoginButton from './LoginButton';
+import SignupButton from './SignupButton';
+
 
 
 const pages=['Products','Pricing','Blogs','Help','Contact Us']
@@ -27,6 +29,7 @@ function HomeNav() {
               ))}
             </Box>
        <Box>
+       <SignupButton />
        <LoginButton />
        </Box> 
       </Toolbar>
