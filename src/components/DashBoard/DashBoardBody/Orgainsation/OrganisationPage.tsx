@@ -30,7 +30,7 @@ function OrganisationPage() {
   
   async function getOrgs() {
     trackPromise(
-      getAllOrgs()
+      getAllOrgs('sumitsingh3842@gmail.com')
         .then((orgsResp) => {
           if (!orgsResp.isError) {
             if ('data' in orgsResp) {
@@ -44,7 +44,9 @@ function OrganisationPage() {
   }
 
   useEffect(() => {
-    console.log(organisations);
+    if (!orgsFetched) {
+      getOrgs();
+    }
   }, [organisations]);
 
   const createOrganisation = () => {

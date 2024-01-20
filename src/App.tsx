@@ -18,23 +18,23 @@ import ChatBot from './screens/ChatBot';
 function App() {
   const router = createBrowserRouter([
     {
-      path: "my-app",
+      path: "/",
       element: <Home />,
     },
     {
-      path: "my-app/dashboard",
+      path: "/dashboard",
       element: <DashBoard />,
     },
     {
-      path: "my-app/profile",
+      path: "/profile",
       element: <Profile />,
     },
     {
-      path: "my-app/project/:orgName/:orgId",
+      path: "/project/:orgName/:orgId",
       element: <OrganisationDetails />,
     },
     {
-      path: "my-app/create-chat-bot",
+      path: "/create-chat-bot",
       element: <ChatBot />,
     }
   ]);
