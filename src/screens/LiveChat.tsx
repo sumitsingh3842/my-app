@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import LiveChatContent from '../components/LiveChat/LiveChatContent';
 import { usePromiseTracker, trackPromise } from 'react-promise-tracker';
 import LiveChatSideBar from '../components/LiveChat/LiveChatSideBar';
@@ -17,11 +17,16 @@ interface GetAllChatsResponse {
 
 function LiveChat() {
   const { promiseInProgress } = usePromiseTracker();
+  const selectedConversation = useSelector((state: RootState) => state.liveChat.selectedConversation);
+  const selectedConversationRef = useRef(selectedConversation);
   const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
   const conversations = useSelector((state: RootState) => state.liveChat.conversations);
   const dispatch = useDispatch();
   const queryParams = '?integrationId=123&liveId=123';
   const baseWebSocketURL = 'wss://zj08u192fg.execute-api.us-east-1.amazonaws.com/dev';
+  useEffect(() => {
+    selectedConversationRef.current = selectedConversation;
+  }, [selectedConversation]);
   const connectWebSocket = () => {
     // Close existing WebSocket connection if open
     if (webSocket) {
@@ -42,8 +47,9 @@ function LiveChat() {
     ws.onmessage = (message) => {
       console.log('WebSocket message:', message.data);
       const data= JSON.parse(message.data);
-      if(data.source === 'user')
-      dispatch(addConversationContent(data));
+      if (data.endUserId === selectedConversationRef.current.endUserId) {
+        dispatch(addConversationContent(data));
+      }
     };
 
     ws.onerror = (error) => {
